@@ -1,0 +1,7 @@
+{
+  "requires": true,
+  "lockfileVersion": 1,
+  "dependencies": {
+    "openzeppelin-solidity": "^1.9.0"
+  }
+}
