@@ -1,4 +1,10 @@
 pragma solidity ^0.4.23;
+
+/**
+* This experimental feature is used temporarily to make it easier to convert the 
+* C# POC code to Solidity. It is ESSENTIANL that this is removed and the code
+* refactored prior to any kind of deployment. 
+*/
 pragma experimental ABIEncoderV2;
 
 
@@ -6,11 +12,20 @@ contract EdgeFund{
 
     address _betAddress;
     bool _isHeads;
-    uint betBlock;
+    uint _betBlock;
     uint _dummy;
 
+    //temporary
+    uint CurrentBalance;
+
     constructor() public
-    { }
+    { 
+        /**
+        * This will be replaces with an ERC20 token. Used to allow some intial
+        * testing with the EdgeFund functions
+        */
+        CurrentBalance = 1000000;
+    }
 
     struct Bet{
         address Player;
@@ -25,6 +40,10 @@ contract EdgeFund{
         bool Resolved;
     }
 
+    function getBankrollBalance() public view returns (uint)
+    {
+        return CurrentBalance;
+    }
 
     function CasinoDecimalPayoutOdds(Bet b) public pure returns(uint){
         return b.UserDecimalPayoutOdds / (b.UserDecimalPayoutOdds - 1);
@@ -39,7 +58,8 @@ contract EdgeFund{
     }
 
     function KellyEdge(Bet b) public pure returns(uint){
-        return (LiabilityToBankrollRatio(b) * (CasinoDecimalPayoutOdds(b) - 1)) / b.KellyFraction;
+        return (LiabilityToBankrollRatio(b) * 
+            (CasinoDecimalPayoutOdds(b) - 1)) / b.KellyFraction;
     }
 
     function UserProbabilityKelly(Bet b) public pure returns(uint){
@@ -66,30 +86,42 @@ contract EdgeFund{
         return 1 / CasinoDecimalPayoutOdds(b);
     }
 
-    function CalculateEdge(uint probability, uint decimalPayoutOdds) private pure returns(uint)
+    function CalculateEdge(
+        uint probability, 
+        uint decimalPayoutOdds
+        ) 
+        private 
+        pure 
+        returns(uint)
     { 
         return probability * decimalPayoutOdds - 1; 
     }
 
     function UserEdgeFundKellyEdge(Bet b) public pure returns(uint)
     {
-        return CalculateEdge(UserProbabilityKelly(b), b.UserDecimalPayoutOdds);
+        return CalculateEdge(
+            UserProbabilityKelly(b), 
+            b.UserDecimalPayoutOdds
+        );
     }
 
     function CasinoEdgeFundKellyEdge(Bet b) public pure returns(uint)
     {
-        return CalculateEdge(CasinoProbabilityKelly(b), CasinoDecimalPayoutOdds(b));
+        return CalculateEdge(
+            CasinoProbabilityKelly(b), 
+            CasinoDecimalPayoutOdds(b)
+        );
     }
 
 
     function PlaceBet(bool isHeads) public{
         _betAddress = msg.sender;
         _isHeads = isHeads;
-        betBlock = block.number;
+        _betBlock = block.number;
     }
 
     function ResolveBet() public view returns(string) {
-        bytes32 blockHash = blockhash(betBlock+1);
+        bytes32 blockHash = blockhash(_betBlock+1);
         require(blockHash!=0);
         //if (blockHash==0) revert();
         bytes32 shaPlayer = keccak256(_betAddress, blockHash);
