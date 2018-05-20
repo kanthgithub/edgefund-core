@@ -2,7 +2,7 @@ pragma solidity ^0.4.23;
 
 /**
 * This experimental feature is used temporarily to make it easier to convert the 
-* C# POC code to Solidity. It is ESSENTIANL that this is removed and the code
+* C# POC code to Solidity. It is ESSENTIAL that this is removed and the code
 * refactored prior to any kind of deployment. 
 */
 pragma experimental ABIEncoderV2;
@@ -15,17 +15,68 @@ contract EdgeFund{
     uint _betBlock;
     uint _dummy;
 
+    uint Multiplier = 10**8;
+    uint FractionalKelly = 1 * Multiplier;
+
     //temporary
-    uint CurrentBalance;
+    uint Bankroll;
 
     constructor() public
     { 
         /**
-        * This will be replaces with an ERC20 token. Used to allow some intial
+        * This will be replaced with an ERC20 token. Used to allow some intial
         * testing with the EdgeFund functions
         */
-        CurrentBalance = 1000000;
+        Bankroll = 10000000 * Multiplier;
     }
+
+    /**
+    * The default function is called when Ether is sent to this address
+    * Need to decide what to do in this scenario. Place a bet? Return funds?
+    * Currently favour placing a 'coin toss' bet here. 
+    */
+    function() public{
+    }
+
+    function Temp() public view returns(uint){
+        uint BetSize = 100 * Multiplier;
+        uint PayoutOdds = 36 * Multiplier;
+        //uint WinOdds = 38 * 10^18;
+        return Multiplier*(PayoutOdds-Multiplier)*(BetSize*Multiplier+FractionalKelly*Bankroll)/(FractionalKelly*PayoutOdds*Bankroll);
+    }
+
+    function PlaceBetWithWinOdds (
+        uint BetSize, 
+        uint PayoutOdds, 
+        uint WinOdds) 
+        public
+        returns(uint)
+    {
+        _dummy = 777;
+        return _dummy; 
+    }
+
+    function PlaceBetWithTotalEdge(
+        uint BetSize, 
+        uint PayoutOdds, 
+        uint TotalEdge) 
+        public
+        returns(bool)
+    {
+
+    }
+
+    struct UserInteraction{
+        uint betSize;
+        uint PayoutOdds; 
+        uint WinOdds;
+    }
+
+
+
+//Re-work above
+////////////////////////////////////////////////////////////////////////////////
+//First pass below
 
     struct Bet{
         address Player;
@@ -42,7 +93,7 @@ contract EdgeFund{
 
     function getBankrollBalance() public view returns (uint)
     {
-        return CurrentBalance;
+        return Bankroll;
     }
 
     function CasinoDecimalPayoutOdds(Bet b) public pure returns(uint){
@@ -113,20 +164,20 @@ contract EdgeFund{
         );
     }
 
-
+    // EdgeFund.deployed().then(function(instance){return instance.PlaceBet(true);});
     function PlaceBet(bool isHeads) public{
         _betAddress = msg.sender;
         _isHeads = isHeads;
         _betBlock = block.number;
     }
 
+    // EdgeFund.deployed().then(function(instance){return instance.ResolveBet();});
     function ResolveBet() public view returns(string) {
         bytes32 blockHash = blockhash(_betBlock+1);
         require(blockHash!=0);
-        //if (blockHash==0) revert();
+
         bytes32 shaPlayer = keccak256(_betAddress, blockHash);
-        uint CoinTossResult = uint8(uint256(shaPlayer)%2);
-        //heads = 1, tails = 0
+        uint CoinTossResult = uint8(uint256(shaPlayer)%2);//heads = 1, tails = 0
 
         if(CoinTossResult == 1 && _isHeads){
             return "You Win!";            
@@ -135,6 +186,8 @@ contract EdgeFund{
         }
     }
 
+    // For testing with Ganache
+    // EdgeFund.deployed().then(function(instance){return instance.ForceNewBlock(123);});
     function ForceNewBlock(uint val) public {
         _dummy = val;
     }
