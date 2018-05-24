@@ -12,7 +12,8 @@ contract TestEdgeFund{
         EdgeFund ef = EdgeFund(DeployedAddresses.EdgeFund());
 
         //Act
-        uint expected = 1000000;
+        uint Multiplier = 10**8;
+        uint expected = 10000000 * Multiplier;
         uint actual = ef.getBankrollBalance();
 
         //Assert
@@ -21,6 +22,24 @@ contract TestEdgeFund{
             expected, 
             "EdgeFund Bankroll should be configured to have 1000000 initially"
         );
+    }
+
+    function testTemporaryCalculation() public
+    {
+        //Arrange
+        EdgeFund ef = EdgeFund(DeployedAddresses.EdgeFund());
+
+        //Act
+        uint expected = 97223194;
+        uint actual = ef.Temp();
+        
+        //Assert
+        Assert.equal(
+            actual, 
+            expected, 
+            "Test should return 97223194"
+        );
+
     }
 
     function testCasinoDecimalPayoutOdds() public 

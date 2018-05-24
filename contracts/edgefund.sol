@@ -41,8 +41,10 @@ contract EdgeFund{
     function Temp() public view returns(uint){
         uint BetSize = 100 * Multiplier;
         uint PayoutOdds = 36 * Multiplier;
-        //uint WinOdds = 38 * 10^18;
-        return Multiplier*(PayoutOdds-Multiplier)*(BetSize*Multiplier+FractionalKelly*Bankroll)/(FractionalKelly*PayoutOdds*Bankroll);
+        return Multiplier *
+            (PayoutOdds-Multiplier) *
+            (BetSize*Multiplier+FractionalKelly*Bankroll) /
+            (FractionalKelly*PayoutOdds*Bankroll);
     }
 
     function PlaceBetWithWinOdds (
