@@ -47,6 +47,15 @@ contract EdgeFund{
             (FractionalKelly*PayoutOdds*Bankroll);
     }
 
+    function Temp2() public view returns(uint){
+    
+        uint WinOdds = Temp();
+        //return WinOdds;
+        return 1-(1/(WinOdds/Multiplier))*Multiplier;
+        
+
+    }
+
     function PlaceBetWithWinOdds (
         uint BetSize, 
         uint PayoutOdds, 
