@@ -92,4 +92,76 @@ contract EdgeFundPOC{
         uint ProbabilityFairUser = this.getProbabilityFairUser();
         return _Multiplier - ProbabilityFairUser;
     }
+
+    function getEdgeKellyCasino() public view returns(uint)
+    {
+        return (_Multiplier * _UserBetSize) / _BankRoll;
+    }
+
+    function getEdgeKellyUser() public view returns(uint)
+    {
+        /*
+        * This sub returns a uint, so it's a positive number, but in reality is
+        * negative. Must remember to invert this. Need to consider usability implications
+        **/
+        uint CasinoLiability = this.getCasinoLiability();
+        return (_Multiplier * CasinoLiability) / _BankRoll;
+    }
+
+    function getEdgeTotalCasino() public view returns(uint)
+    {
+        uint ProbabilityWinCasino = this.getProbabilityWinCasino();
+        uint CasinoDecimalPayoutOdds = this.getCasinoDecimalPayoutOdds();
+
+        return ((ProbabilityWinCasino * CasinoDecimalPayoutOdds) / _Multiplier) - _Multiplier;
+    }
+
+    function getEdgeTotalUser() public view returns(uint)
+    {
+        return _Multiplier - ((_DecimalPayoutOdds * _Multiplier) / _DecimalWinOdds);
+    }
+
+    function getEdgeGameOperatorCasino() public view returns(uint)
+    {
+        uint EdgeTotalCasino = this.getEdgeTotalCasino();
+        uint EdgeKellyCasino = this.getEdgeKellyCasino();
+
+        return EdgeTotalCasino - EdgeKellyCasino;
+    }
+
+    function getEdgeGameOperatorUser() public view returns(uint)
+    {
+        uint EdgeTotalUser = this.getEdgeTotalUser();
+        uint EdgeKellyUser = this.getEdgeKellyUser();
+
+        return EdgeTotalUser - EdgeKellyUser;
+    }
+
+    function getEVKellyCasino() public view returns(uint)
+    {
+        uint CasinoLiability = this.getCasinoLiability();
+        uint EdgeKellyCasino = this.getEdgeKellyCasino();
+
+        return (CasinoLiability * EdgeKellyCasino) / _Multiplier;
+    }
+    
+    function getEVKellyUser() public view returns(uint)
+    {
+        uint EdgeKellyUser = this.getEdgeKellyUser();
+
+        return (_UserBetSize * EdgeKellyUser) / _Multiplier;
+    }
+    
+    function getEVTotalCasino() public view returns(uint)
+    {
+        return _UserBetSize - ((_UserBetSize * _DecimalPayoutOdds) / _DecimalWinOdds);
+    }
+    
+    function getEVTotalUser() public view returns(uint)
+    {
+        //return (_UserBetSize * EdgeTotalUser) / _Multiplier;
+    }
+
+    // function getEVGameOperatorCasino() public view returns(uint)
+    // function getEVGameOperatorUser() public view returns(uint)
 }

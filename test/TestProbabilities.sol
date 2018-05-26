@@ -4,7 +4,8 @@ import "truffle/Assert.sol";
 import "truffle/DeployedAddresses.sol";
 import "../contracts/EdgeFundPOC.sol";
 
-contract TestProbabilities{
+contract TestProbabilities
+{
 
 
     function testProbabilityKellyCasino() public
@@ -69,7 +70,7 @@ contract TestProbabilities{
 
         //Act
         //uint Multiplier = ef.getMultiplier();
-        uint expected = 2631578; //2631578.9
+        uint expected = 2631578; //2631578.9  
         uint actual = ef.getProbabilityWinUser();
 
         //Assert
