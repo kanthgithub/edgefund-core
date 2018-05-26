@@ -41,23 +41,7 @@ contract TestEdgeFund{
         );
     }
 
-    function testSecondTemporaryCalculation() public
-    {
-        //Arrange
-        EdgeFund ef = EdgeFund(DeployedAddresses.EdgeFund());
-
-        //Act
-        uint expected = 97368421;
-        uint actual = ef.Temp2();
-        
-        //Assert
-        Assert.equal(
-            actual, 
-            expected, 
-            "Test should return 97223194"
-        );
-    }
-
+   
     function testCasinoDecimalPayoutOdds() public 
     {
         //TODO
