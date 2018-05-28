@@ -7,112 +7,89 @@ import "../contracts/EdgeFundPOC.sol";
 contract TestProbabilities
 {
 
+    uint _ProbabilityKellyCasino = 97223194;
+    uint _ProbabilityKellyUser = 2776806;
+    uint _ProbabilityWinCasino = 97368421;
+    uint _ProbabilityWinUser = 2631578; 
+    uint _ProbabilityFairCasino = 97222223;
+    uint _ProbabilityFairUser = 2777777;
+
+    EdgeFundPOC ef;
+
+    constructor()
+    {
+        ef = new EdgeFundPOC();
+    }
 
     function testProbabilityKellyCasino() public
     {
-        //Arrange
-        EdgeFundPOC ef = new EdgeFundPOC();
-
-        //Act
-        uint expected = 97223194; // 97223194.4
+        uint expected = _ProbabilityKellyCasino; // 97223194.4
         uint actual = ef.getProbabilityKellyCasino();
 
-        //Assert
         Assert.equal(
-            actual, 
-            expected, 
+            actual,
+            expected,
             "Excel calculated number is: 97223194.4"
         );
     }
 
     function testProbabilityKellyUser() public
     {
-        //Arrange
-        EdgeFundPOC ef = new EdgeFundPOC();
-
-        //Act
-        uint expected = 2776806; //2776805.6
+        uint expected = _ProbabilityKellyUser; //2776805.6
         uint actual = ef.getProbabilityKellyUser();
 
-        //Assert
         Assert.equal(
-            actual, 
-            expected, 
+            actual,
+            expected,
             "Excel calculated number is: 2776805.6"
         );
     }
 
     function testProbabilityWinCasino() public
     {
-        //Arrange
-        EdgeFundPOC ef = new EdgeFundPOC();
-
-        //Act
-        uint expected = 97368421; //97368421.1
+        uint expected = _ProbabilityWinCasino; //97368421.1
         uint actual = ef.getProbabilityWinCasino();
 
-        //Assert
         Assert.equal(
-            actual, 
-            expected, 
+            actual,
+            expected,
             "Excel calculated number is: 97368421.1"
         );
     }
 
-    //getProbabilityWinUser
     function testProbabilityWinUser() public
     {
-        //Arrange
-        EdgeFundPOC ef = new EdgeFundPOC();
-
-        //Act
-        //uint Multiplier = ef.getMultiplier();
-        uint expected = 2631578; //2631578.9  
+        uint expected = _ProbabilityWinUser; //2631578.9
         uint actual = ef.getProbabilityWinUser();
 
-        //Assert
         Assert.equal(
-            actual, 
-            expected, 
+            actual,
+            expected,
             "Excel calculated number is: 2631578.9"
         );
     }
 
-    //getProbabilityWinUser
-    function testProbabilityFairUser() public
+    function testProbabilityFairCasino() public
     {
-        //Arrange
-        EdgeFundPOC ef = new EdgeFundPOC();
+        uint expected = _ProbabilityFairCasino; //97222222.2
+        uint actual = ef.getProbabilityFairCasino();
 
-        //Act
-        //uint Multiplier = ef.getMultiplier();
-        uint expected = 2777777; //2777777.8
-        uint actual = ef.getProbabilityFairUser();
-
-        //Assert
         Assert.equal(
-            actual, 
-            expected, 
-            "Excel calculated number is: 2777777.8"
+            actual,
+            expected,
+            "Excel calculated number is: 97222222.2"
         );
     }
 
-    //getProbabilityWinUser
-    function testProbabilityFairCasino() public
+    function testProbabilityFairUser() public
     {
-        //Arrange
-        EdgeFundPOC ef = new EdgeFundPOC();
+        uint expected = _ProbabilityFairUser; //2777777.8
+        uint actual = ef.getProbabilityFairUser();
 
-        //Act
-        //uint Multiplier = ef.getMultiplier();
-        uint expected = 97222223; //97222222.2
-        uint actual = ef.getProbabilityFairCasino();
-
-        //Assert
         Assert.equal(
-            actual, 
-            expected, 
-            "Excel calculated number is: 97222222.2"
+            actual,
+            expected,
+            "Excel calculated number is: 2777777.8"
         );
     }
 }
