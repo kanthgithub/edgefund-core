@@ -8,6 +8,7 @@ contract EdgeFundPOC{
     uint _DecimalPayoutOdds;
     uint _DecimalWinOdds;
     uint _BankRoll;
+    uint _FractionalKelly;
 
     constructor() public
     { 
@@ -16,6 +17,7 @@ contract EdgeFundPOC{
         _DecimalPayoutOdds = 36 * _Multiplier;
         _DecimalWinOdds = 38 * _Multiplier;
         _BankRoll = 10000000 * _Multiplier;
+        _FractionalKelly = 1;
     }
 
     function getMultiplier() public view returns(uint)
@@ -33,11 +35,6 @@ contract EdgeFundPOC{
         return (_DecimalPayoutOdds * _Multiplier / (_DecimalPayoutOdds - _Multiplier));
     }
 
-    function getFractionalKelly() public pure returns(uint)
-    {
-        return 1;
-    }
-
     function getCasinoLiability() public view returns(uint)
     {
         return (_UserBetSize * (_DecimalPayoutOdds - _Multiplier))/_Multiplier;
@@ -45,30 +42,37 @@ contract EdgeFundPOC{
 
     function getFStar() public view returns(uint)
     {
-        uint CasinoLiability = this.getCasinoLiability();
-        return (CasinoLiability * _Multiplier) / _BankRoll;
+        return (_UserBetSize * (_DecimalPayoutOdds - _Multiplier)) / _BankRoll;
     }
 
     function getKellyEdge() public view returns(uint)
     {
-        uint FractionalKelly = this.getFractionalKelly();
-        return (_UserBetSize * _Multiplier / _BankRoll) * FractionalKelly;
+        return (_UserBetSize * _Multiplier / _BankRoll) * _FractionalKelly;
     }
-
-    // P Kelly / Win / Fair (Casino / User)
 
     function getProbabilityKellyUser() public view returns(uint)
     {
         uint ProbabilityKellyCasino = this.getProbabilityKellyCasino();
         return _Multiplier - ProbabilityKellyCasino;
+        // return
+        // (
+        //     _Multiplier - 
+        //     (_Multiplier * 
+        //     (_DecimalPayoutOdds - _Multiplier) * 
+        //     (_UserBetSize * _FractionalKelly + _BankRoll)) / 
+        //     (_BankRoll*_DecimalPayoutOdds)
+        // );
     }
 
     function getProbabilityKellyCasino() public view returns(uint)
     {
-        uint KellyEdge = getKellyEdge();
-        uint CasinoDecimalPayoutOdds = getCasinoDecimalPayoutOdds();
-
-        return ((KellyEdge + _Multiplier) * _Multiplier) / CasinoDecimalPayoutOdds;
+        return
+        (
+            (_Multiplier * 
+            (_DecimalPayoutOdds - _Multiplier) * 
+            (_UserBetSize * _FractionalKelly + _BankRoll)) / 
+            (_BankRoll*_DecimalPayoutOdds)
+        );
     }
 
     function getProbabilityWinUser() public view returns(uint)
@@ -78,8 +82,7 @@ contract EdgeFundPOC{
 
     function getProbabilityWinCasino() public view returns(uint)
     {
-        uint ProbabilityWinUser = this.getProbabilityWinUser();
-        return _Multiplier - ProbabilityWinUser;
+        return (_Multiplier * (_DecimalWinOdds - _Multiplier))/_DecimalWinOdds;
     }
 
     function getProbabilityFairUser() public view returns(uint)
@@ -110,10 +113,16 @@ contract EdgeFundPOC{
 
     function getEdgeTotalCasino() public view returns(uint)
     {
-        uint ProbabilityWinCasino = this.getProbabilityWinCasino();
-        uint CasinoDecimalPayoutOdds = this.getCasinoDecimalPayoutOdds();
+        // uint ProbabilityWinCasino = this.getProbabilityWinCasino();
+        // uint CasinoDecimalPayoutOdds = this.getCasinoDecimalPayoutOdds();
 
-        return ((ProbabilityWinCasino * CasinoDecimalPayoutOdds) / _Multiplier) - _Multiplier;
+        // return ((ProbabilityWinCasino * CasinoDecimalPayoutOdds) / _Multiplier) - _Multiplier;
+
+        return ((_Multiplier * _Multiplier * 
+        (_DecimalWinOdds - _DecimalPayoutOdds)) / 
+        (_DecimalWinOdds * (_DecimalPayoutOdds - _Multiplier)));
+
+        //return (_DecimalPayoutOdds - _DecimalWinOdds) / (_DecimalWinOdds - (_DecimalPayoutOdds * _DecimalWinOdds));
     }
 
     function getEdgeTotalUser() public view returns(uint)
@@ -159,9 +168,21 @@ contract EdgeFundPOC{
     
     function getEVTotalUser() public view returns(uint)
     {
-        //return (_UserBetSize * EdgeTotalUser) / _Multiplier;
+        return (_UserBetSize * (_DecimalWinOdds - _DecimalPayoutOdds)) / _DecimalWinOdds;
     }
 
-    // function getEVGameOperatorCasino() public view returns(uint)
-    // function getEVGameOperatorUser() public view returns(uint)
+    function getEVGameOperatorCasino() public view returns(uint)
+    {
+        uint EVTotalCasino = this.getEVTotalCasino();
+        uint EVKellyCasino = this.getEVKellyCasino();
+
+        return EVTotalCasino - EVKellyCasino;
+    }
+    function getEVGameOperatorUser() public view returns(uint)
+    {
+        uint EVTotalUser = this.getEVTotalUser();
+        uint EVKellyUser = this.getEVKellyUser();
+
+        return EVTotalUser - EVKellyUser;
+    }
 }

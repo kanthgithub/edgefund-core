@@ -40,24 +40,7 @@ contract TestEdgeFundPOC{
         );
     }
 
-    function testFractionalKelly() public
-    {
-        //Arrange
-        EdgeFundPOC ef = new EdgeFundPOC();
 
-        //Act
-        uint expected = 1;
-        uint actual = ef.getFractionalKelly();
-
-        //Assert
-        Assert.equal(
-            actual, 
-            expected, 
-            "Expected 1"
-        );
-    }
-
-    //getCasinoDecimalPayoutOdds
     function testCasinoDecimalPayoutOdds() public
     {
         //Arrange

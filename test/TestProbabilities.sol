@@ -14,15 +14,14 @@ contract TestProbabilities
         EdgeFundPOC ef = new EdgeFundPOC();
 
         //Act
-        //uint Multiplier = ef.getMultiplier();
-        uint expected = 97223195; // 97223194.4
+        uint expected = 97223194; // 97223194.4
         uint actual = ef.getProbabilityKellyCasino();
 
         //Assert
         Assert.equal(
             actual, 
             expected, 
-            "Expected 97223194.4"
+            "Excel calculated number is: 97223194.4"
         );
     }
 
@@ -32,33 +31,31 @@ contract TestProbabilities
         EdgeFundPOC ef = new EdgeFundPOC();
 
         //Act
-        //uint Multiplier = ef.getMultiplier();
-        uint expected = 2776805; //2776805.6
+        uint expected = 2776806; //2776805.6
         uint actual = ef.getProbabilityKellyUser();
 
         //Assert
         Assert.equal(
             actual, 
             expected, 
-            "Expected 2776805.6"
+            "Excel calculated number is: 2776805.6"
         );
     }
 
-    //getProbabilityWinCasino
     function testProbabilityWinCasino() public
     {
         //Arrange
         EdgeFundPOC ef = new EdgeFundPOC();
 
         //Act
-        uint expected = 97368422; //97368421.1
+        uint expected = 97368421; //97368421.1
         uint actual = ef.getProbabilityWinCasino();
 
         //Assert
         Assert.equal(
             actual, 
             expected, 
-            "Expected 97368421.1"
+            "Excel calculated number is: 97368421.1"
         );
     }
 
@@ -77,7 +74,7 @@ contract TestProbabilities
         Assert.equal(
             actual, 
             expected, 
-            "Expected 2631578.9"
+            "Excel calculated number is: 2631578.9"
         );
     }
 
@@ -96,7 +93,7 @@ contract TestProbabilities
         Assert.equal(
             actual, 
             expected, 
-            "Expected 2777777.8"
+            "Excel calculated number is: 2777777.8"
         );
     }
 
@@ -115,7 +112,7 @@ contract TestProbabilities
         Assert.equal(
             actual, 
             expected, 
-            "Expected 97222222.2"
+            "Excel calculated number is: 97222222.2"
         );
     }
 }

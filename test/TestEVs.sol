@@ -19,7 +19,7 @@ contract TestEVs
         Assert.equal(
             actual, 
             expected, 
-            "Expected 3500000.0"
+            "Excel calculated number is: 3500000.0"
         );
     }
     function testEVKellyUser() public
@@ -35,7 +35,7 @@ contract TestEVs
         Assert.equal(
             actual, 
             expected, 
-            "Expected 3500000.0"
+            "Excel calculated number is: 3500000.0"
         );
     }
     
@@ -52,26 +52,58 @@ contract TestEVs
         Assert.equal(
             actual, 
             expected, 
-            "Expected 526315789.5"
+            "Excel calculated number is: 526315789.5"
         );
     }
     
-    // function testEVTotalUser() public
-    // {
-    //     //Arrange
-    //     EdgeFundPOC ef = new EdgeFundPOC();
+    function testEVTotalUser() public
+    {
+        //Arrange
+        EdgeFundPOC ef = new EdgeFundPOC();
 
-    //     //Act
-    //     uint expected = 526315789; // 526315789.5
-    //     uint actual = ef.getEVTotalUser();
+        //Act
+        uint expected = 526315789; // 526315789.5
+        uint actual = ef.getEVTotalUser();
 
-    //     //Assert
-    //     Assert.equal(
-    //         actual, 
-    //         expected, 
-    //         "Expected 526315789.5"
-    //     );
-    // }
-    // function testEVGameOperatorCasino() public
-    // function testEVGameOperatorUser() public
+        //Assert
+        Assert.equal(
+            actual, 
+            expected, 
+            "Excel calculated number is: -526315789.5"
+        );
+    }
+
+    function testEVGameOperatorCasino() public
+    {
+        //Arrange
+        EdgeFundPOC ef = new EdgeFundPOC();
+
+        //Act
+        uint expected = 522815790; // 522815789.5
+        uint actual = ef.getEVGameOperatorCasino();
+
+        //Assert
+        Assert.equal(
+            actual, 
+            expected, 
+            "Excel calculated number is: 522815789.5"
+        );
+    }
+
+    function testEVGameOperatorUser() public
+    {
+        //Arrange
+        EdgeFundPOC ef = new EdgeFundPOC();
+
+        //Act
+        uint expected = 522815790; // -522815789.5
+        uint actual = ef.getEVGameOperatorCasino();
+
+        //Assert
+        Assert.equal(
+            actual, 
+            expected, 
+            "Excel calculated number is: -522815789.5"
+        );
+    }
 }

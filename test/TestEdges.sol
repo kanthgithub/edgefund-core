@@ -19,7 +19,7 @@ contract TestEdges
         Assert.equal(
             actual, 
             expected, 
-            "Expected 1000.0"
+            "Excel calculated number is: 1000.0"
         );
     }
 
@@ -36,7 +36,7 @@ contract TestEdges
         Assert.equal(
             actual, 
             expected, 
-            "Expected 35000.0. Note, this should be negative. Represented as +ve"
+            "Excel calculated number is: 35000.0. Note, this should be negative. Represented as +ve"
         );
     }
 
@@ -46,14 +46,14 @@ contract TestEdges
         EdgeFundPOC ef = new EdgeFundPOC();
 
         //Act
-        uint expected = 150376; // 150375.9
+        uint expected = 150375; // 150375.9
         uint actual = ef.getEdgeTotalCasino();
 
         //Assert
         Assert.equal(
             actual, 
             expected, 
-            "Expected 150375.9"
+            "Excel calculated number is: 150375.9"
         );
     }
 
@@ -70,7 +70,7 @@ contract TestEdges
         Assert.equal(
             actual, 
             expected, 
-            "Expected -5263157.9"
+            "Excel calculated number is: -5263157.9"
         );
     }
 
@@ -80,14 +80,14 @@ contract TestEdges
         EdgeFundPOC ef = new EdgeFundPOC();
 
         //Act
-        uint expected = 149376; // 149375.9
+        uint expected = 149375; // 149375.9
         uint actual = ef.getEdgeGameOperatorCasino();
 
         //Assert
         Assert.equal(
             actual, 
             expected, 
-            "Expected 149375.9"
+            "Excel calculated number is: 149375.9"
         );
     }
 
@@ -104,7 +104,7 @@ contract TestEdges
         Assert.equal(
             actual, 
             expected, 
-            "Expected -5228157.9"
+            "Excel calculated number is: -5228157.9"
         );
     }
 }
