@@ -1,13 +1,5 @@
 pragma solidity ^0.4.23;
 
-/**
-* This experimental feature is used temporarily to make it easier to convert the 
-* C# POC code to Solidity. It is ESSENTIAL that this is removed and the code
-* refactored prior to any kind of deployment. 
-*/
-pragma experimental ABIEncoderV2;
-
-
 contract EdgeFund{
 
     address _betAddress;
@@ -48,38 +40,32 @@ contract EdgeFund{
     }
 
 
-    function PlaceBetWithWinOdds (
-        uint BetSize, 
-        uint PayoutOdds, 
-        uint WinOdds) 
-        public
-        returns(uint)
-    {
-        _dummy = 777;
-        return _dummy; 
-    }
+    // function PlaceBetWithWinOdds (
+    //     uint BetSize, 
+    //     uint PayoutOdds, 
+    //     uint WinOdds) 
+    //     public
+    //     returns(uint)
+    // {
+    //     _dummy = 777;
+    //     return _dummy; 
+    // }
 
-    function PlaceBetWithTotalEdge(
-        uint BetSize, 
-        uint PayoutOdds, 
-        uint TotalEdge) 
-        public
-        returns(bool)
-    {
+    // function PlaceBetWithTotalEdge(
+    //     uint BetSize, 
+    //     uint PayoutOdds, 
+    //     uint TotalEdge) 
+    //     public
+    //     returns(bool)
+    // {
 
-    }
+    // }
 
     struct UserInteraction{
         uint betSize;
         uint PayoutOdds; 
         uint WinOdds;
     }
-
-
-
-//Re-work above
-////////////////////////////////////////////////////////////////////////////////
-//First pass below
 
     struct Bet{
         address Player;
@@ -99,47 +85,6 @@ contract EdgeFund{
         return Bankroll;
     }
 
-    function CasinoDecimalPayoutOdds(Bet b) public pure returns(uint){
-        return b.UserDecimalPayoutOdds / (b.UserDecimalPayoutOdds - 1);
-    }
-
-    function CasinoPotentialLiability(Bet b) public pure returns(uint){
-        return b.UserRequestedBetSize * (b.UserDecimalPayoutOdds - 1);
-    }
-
-    function LiabilityToBankrollRatio(Bet b) public pure returns(uint){
-        return CasinoPotentialLiability(b) / b.BankRollPriorToBet;
-    }
-
-    function KellyEdge(Bet b) public pure returns(uint){
-        return (LiabilityToBankrollRatio(b) * 
-            (CasinoDecimalPayoutOdds(b) - 1)) / b.KellyFraction;
-    }
-
-    function UserProbabilityKelly(Bet b) public pure returns(uint){
-        return 1 - CasinoProbabilityKelly(b);
-    }
-    
-    function CasinoProbabilityKelly(Bet b) public pure returns(uint){
-        return (KellyEdge(b) + 1) / CasinoDecimalPayoutOdds(b); 
-    }
-
-    function UserProbabilityWin(Bet b) public pure returns(uint){
-        return  1 / b.UserDecimalWinOdds;
-    }
-
-    function CasinoProbabilityWin(Bet b) public pure returns(uint){
-        return 1 - UserProbabilityWin(b); 
-    }
-
-    function UserProbabilityFair(Bet b) public pure returns(uint){
-        return 1 / b.UserDecimalPayoutOdds;
-    }
-
-    function CasinoProbabilityFair(Bet b) public pure returns(uint){
-        return 1 / CasinoDecimalPayoutOdds(b);
-    }
-
     function CalculateEdge(
         uint probability, 
         uint decimalPayoutOdds
@@ -149,22 +94,6 @@ contract EdgeFund{
         returns(uint)
     { 
         return probability * decimalPayoutOdds - 1; 
-    }
-
-    function UserEdgeFundKellyEdge(Bet b) public pure returns(uint)
-    {
-        return CalculateEdge(
-            UserProbabilityKelly(b), 
-            b.UserDecimalPayoutOdds
-        );
-    }
-
-    function CasinoEdgeFundKellyEdge(Bet b) public pure returns(uint)
-    {
-        return CalculateEdge(
-            CasinoProbabilityKelly(b), 
-            CasinoDecimalPayoutOdds(b)
-        );
     }
 
     // EdgeFund.deployed().then(function(instance){return instance.PlaceBet(true);});
