@@ -54,4 +54,18 @@ contract TestEdgeFund{
         Assert.equal(true, true, "todo");
     }
 
+    function testPlaceBetWithWinOdds() public
+    {
+        EdgeFund ef = new EdgeFund();
+        bool result = ef.PlaceBetWithWinOdds(100, 35, 37);
+        Assert.equal(result, true, "failure expected currently");
+    }
+
+    function testResolveBets() public
+    {
+        EdgeFund ef = new EdgeFund();
+        bool result = ef.ResolveBets();
+        Assert.equal(result, true, "failure expected currently");
+    }
+
 }

@@ -13,6 +13,63 @@ contract EdgeFund{
     //temporary
     uint Bankroll;
 
+    struct Bet{
+        uint BetSize;
+        uint PayoutOdds;
+        uint WinOdds;
+
+        uint BlockNumber;
+        uint PlayerBetIndex;
+        address Player;
+
+        bool Resolved;
+    }
+
+    mapping(address => Bet[]) playerBets;
+
+    function PlaceBetWithWinOdds (
+        uint BetSize, 
+        uint PayoutOdds, 
+        uint WinOdds) 
+        public
+        returns(bool)
+    {
+       // Bet b;
+        //b.Betsize = BetSize;
+        Bet[] existingBets = playerBets[msg.sender];
+        uint numBets = existingBets.length;
+        existingBets.push(
+            Bet(
+                BetSize,
+                PayoutOdds,
+                WinOdds,
+                block.number,
+                numBets++,
+                msg.sender,
+                false
+            ));
+
+        return false; 
+    }
+
+    function ResolveBets() public returns(bool)
+    {
+        Bet[] existingBets = playerBets[msg.sender];
+        for(uint i = 0; i < existingBets.length; i++){
+            if(!existingBets[i].Resolved)
+            {
+                //Steps to resolve a bet
+                //check that the current block is > the bet-placed block
+                //check that the amount being paid out on this block is < block reward
+                //get the blockhash of the resolving block
+                //get the result of the bet for the given resolution-block
+                //
+
+            }
+        }
+        return false;
+    }
+
     constructor() public
     { 
         /**
@@ -67,18 +124,18 @@ contract EdgeFund{
         uint WinOdds;
     }
 
-    struct Bet{
-        address Player;
-        uint UserRequestedBetSize;
-        uint UserDecimalPayoutOdds;
-        uint UserDecimalWinOdds;
-        uint BankRollPriorToBet;
-        uint KellyFraction;
-        uint liabilityLimit;
-        bool LiabilityLimit;
+    // struct Bet{
+    //     address Player;
+    //     uint UserRequestedBetSize;
+    //     uint UserDecimalPayoutOdds;
+    //     uint UserDecimalWinOdds;
+    //     uint BankRollPriorToBet;
+    //     uint KellyFraction;
+    //     uint liabilityLimit;
+    //     bool LiabilityLimit;
 
-        bool Resolved;
-    }
+    //     bool Resolved;
+    // }
 
     function getBankrollBalance() public view returns (uint)
     {
