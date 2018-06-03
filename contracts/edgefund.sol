@@ -18,7 +18,7 @@ contract EdgeFund{
         uint PayoutOdds;
         uint WinOdds;
 
-        uint BlockNumber;
+        uint PlacedBlockNumber;
         uint PlayerBetIndex;
         address Player;
 
@@ -63,9 +63,20 @@ contract EdgeFund{
                 //check that the amount being paid out on this block is < block reward
                 //get the blockhash of the resolving block
                 //get the result of the bet for the given resolution-block
-                //
+                require(block.number > existingBets[i].PlacedBlockNumber);
+                bytes32 ResolutionblockHash = blockhash(existingBets[i].PlacedBlockNumber+1);
+                bytes32 HashedValue = keccak256(existingBets[i].Player, ResolutionblockHash);
+                uint Result = uint8(uint256(HashedValue)%existingBets[i].WinOdds);
+                if(Result == 0)
+                {
+                    //player has won
+                }
+                else
+                {
+                    //player has lost
+                }
 
-            }
+            } 
         }
         return false;
     }
@@ -165,8 +176,8 @@ contract EdgeFund{
         bytes32 blockHash = blockhash(_betBlock+1);
         require(blockHash!=0);
 
-        bytes32 shaPlayer = keccak256(_betAddress, blockHash);
-        uint CoinTossResult = uint8(uint256(shaPlayer)%2);//heads = 1, tails = 0
+        bytes32 HashedValue = keccak256(_betAddress, blockHash);
+        uint CoinTossResult = uint8(uint256(HashedValue)%2);//heads = 1, tails = 0
 
         if(CoinTossResult == 1 && _isHeads){
             return "You Win!";            
