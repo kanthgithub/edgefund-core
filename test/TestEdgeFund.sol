@@ -17,6 +17,4 @@ contract TestEdgeFund{
         ef.ResolveBets();
         assert(true);
     }
-
-
 }

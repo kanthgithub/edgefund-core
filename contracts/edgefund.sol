@@ -28,15 +28,15 @@ contract EdgeFund{
     mapping(address => Bet[]) playerBets;
 
     function PlaceBetWithWinOdds (
-        uint BetSize, 
-        uint PayoutOdds, 
-        uint WinOdds) 
+        uint BetSize,
+        uint PayoutOdds,
+        uint WinOdds)
         public
         returns(bool)
     {
        // Bet b;
         //b.Betsize = BetSize;
-        Bet[] existingBets = playerBets[msg.sender];
+        Bet[] storage existingBets = playerBets[msg.sender];
         uint numBets = existingBets.length;
         existingBets.push(
             Bet(
@@ -49,16 +49,17 @@ contract EdgeFund{
                 false
             ));
 
-        return false; 
+        return false;
     }
 
-    function ResolveBets() public returns(bool)
+    function ResolveBets() public view returns(bool)
     {
-        Bet[] existingBets = playerBets[msg.sender];
+        Bet[] storage existingBets = playerBets[msg.sender];
         for(uint i = 0; i < existingBets.length; i++){
             if(!existingBets[i].Resolved)
             {
-                /*Steps to resolve a bet
+                /*
+                * Steps to resolve a bet
                 * check that the current block is > the bet-placed block
                 * check that the amount being paid out on this block is < block reward
                 * get the blockhash of the resolving block
@@ -67,24 +68,16 @@ contract EdgeFund{
 
                 require(block.number > existingBets[i].PlacedBlockNumber);
                 bytes32 ResolutionblockHash = blockhash(existingBets[i].PlacedBlockNumber+1);
-                bytes32 HashedValue = keccak256(existingBets[i].Player, ResolutionblockHash);
+                bytes32 HashedValue = keccak256(abi.encodePacked(existingBets[i].Player, ResolutionblockHash));
                 uint Result = uint8(uint256(HashedValue)%existingBets[i].WinOdds);
-                if(Result == 0)
-                {
-                    //player has won
-                }
-                else
-                {
-                    //player has lost
-                }
-
-            } 
+                Result == 0 ? true : false;
+            }
         }
         return false;
     }
 
     constructor() public
-    { 
+    {
         /**
         * This will be replaced with an ERC20 token. Used to allow some intial
         * testing with the EdgeFund functions
@@ -95,7 +88,7 @@ contract EdgeFund{
     /**
     * The default function is called when Ether is sent to this address
     * Need to decide what to do in this scenario. Place a bet? Return funds?
-    * Currently favour placing a 'coin toss' bet here. 
+    * Currently favour placing a 'coin toss' bet here.
     */
     function() public{
     }
@@ -104,51 +97,16 @@ contract EdgeFund{
         uint BetSize = 100 * Multiplier;
         uint PayoutOdds = 36 * Multiplier;
         return Multiplier *
-            (PayoutOdds-Multiplier) *
-            (BetSize*Multiplier+FractionalKelly*Bankroll) /
-            (FractionalKelly*PayoutOdds*Bankroll);
+            (PayoutOdds - Multiplier) *
+            (BetSize * Multiplier + FractionalKelly * Bankroll) /
+            (FractionalKelly * PayoutOdds * Bankroll);
     }
-
-
-    // function PlaceBetWithWinOdds (
-    //     uint BetSize, 
-    //     uint PayoutOdds, 
-    //     uint WinOdds) 
-    //     public
-    //     returns(uint)
-    // {
-    //     _dummy = 777;
-    //     return _dummy; 
-    // }
-
-    // function PlaceBetWithTotalEdge(
-    //     uint BetSize, 
-    //     uint PayoutOdds, 
-    //     uint TotalEdge) 
-    //     public
-    //     returns(bool)
-    // {
-
-    // }
 
     struct UserInteraction{
         uint betSize;
-        uint PayoutOdds; 
+        uint PayoutOdds;
         uint WinOdds;
     }
-
-    // struct Bet{
-    //     address Player;
-    //     uint UserRequestedBetSize;
-    //     uint UserDecimalPayoutOdds;
-    //     uint UserDecimalWinOdds;
-    //     uint BankRollPriorToBet;
-    //     uint KellyFraction;
-    //     uint liabilityLimit;
-    //     bool LiabilityLimit;
-
-    //     bool Resolved;
-    // }
 
     function getBankrollBalance() public view returns (uint)
     {
@@ -156,14 +114,14 @@ contract EdgeFund{
     }
 
     function CalculateEdge(
-        uint probability, 
+        uint probability,
         uint decimalPayoutOdds
-        ) 
-        private 
-        pure 
+        )
+        private
+        pure
         returns(uint)
-    { 
-        return probability * decimalPayoutOdds - 1; 
+    {
+        return probability * decimalPayoutOdds - 1;
     }
 
     // EdgeFund.deployed().then(function(instance){return instance.PlaceBet(true);});
@@ -178,13 +136,15 @@ contract EdgeFund{
         bytes32 blockHash = blockhash(_betBlock+1);
         require(blockHash!=0);
 
-        bytes32 HashedValue = keccak256(_betAddress, blockHash);
+        bytes32 HashedValue = keccak256(abi.encodePacked(_betAddress, blockHash));
         uint CoinTossResult = uint8(uint256(HashedValue)%2);//heads = 1, tails = 0
 
-        if(CoinTossResult == 1 && _isHeads){
-            return "You Win!";            
+        if (CoinTossResult == 1 && _isHeads){
+            return "You Win!";
+
         } else {
             return "You Lose";
+
         }
     }
 
