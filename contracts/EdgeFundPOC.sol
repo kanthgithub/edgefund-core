@@ -105,16 +105,9 @@ contract EdgeFundPOC{
 
     function getEdgeTotalCasino() public view returns(uint)
     {
-        // uint ProbabilityWinCasino = this.getProbabilityWinCasino();
-        // uint CasinoDecimalPayoutOdds = this.getCasinoDecimalPayoutOdds();
-
-        // return ((ProbabilityWinCasino * CasinoDecimalPayoutOdds) / _Multiplier) - _Multiplier;
-
         return ((_Multiplier * _Multiplier *
         (_DecimalWinOdds - _DecimalPayoutOdds)) /
         (_DecimalWinOdds * (_DecimalPayoutOdds - _Multiplier)));
-
-        //return (_DecimalPayoutOdds - _DecimalWinOdds) / (_DecimalWinOdds - (_DecimalPayoutOdds * _DecimalWinOdds));
     }
 
     function getEdgeTotalUser() public view returns(uint)
