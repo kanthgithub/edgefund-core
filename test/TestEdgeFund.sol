@@ -4,17 +4,19 @@ import "truffle/Assert.sol";
 import "truffle/DeployedAddresses.sol";
 import "../contracts/EdgeFund.sol";
 
-contract TestEdgeFund{
+contract TestEdgeFund {
 
     EdgeFund ef;
 
-    constructor() public
+    constructor()
     {
         ef = new EdgeFund();
     }
 
-    function testTemp() view public{
+    function testTemp() public
+    {
         ef.ResolveBets();
+
         assert(true);
     }
 }
