@@ -8,12 +8,12 @@ contract TestEdgeFund{
 
     EdgeFund ef;
 
-    constructor()
+    constructor() public
     {
         ef = new EdgeFund();
     }
 
-    function testTemp() public{
+    function testTemp() view public{
         ef.ResolveBets();
         assert(true);
     }
