@@ -1,5 +1,7 @@
 # EdgeFund Core Platform
 
+![logo](/assets/edgefund.png "EdgeFundLogo")
+
 This repository contains the core smart contracts used on the EdgeFund platform, including tests and truffle local development tools.
 
 ## Prerequisites
