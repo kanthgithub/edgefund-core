@@ -11,7 +11,7 @@ contract EdgeFundPOC{
     uint _FractionalKelly;
 
     constructor() public
-    { 
+    {
         //Force this to be a single American roulette bet.
         _UserBetSize = 100 * _Multiplier;
         _DecimalPayoutOdds = 36 * _Multiplier;
@@ -54,23 +54,15 @@ contract EdgeFundPOC{
     {
         uint ProbabilityKellyCasino = this.getProbabilityKellyCasino();
         return _Multiplier - ProbabilityKellyCasino;
-        // return
-        // (
-        //     _Multiplier - 
-        //     (_Multiplier * 
-        //     (_DecimalPayoutOdds - _Multiplier) * 
-        //     (_UserBetSize * _FractionalKelly + _BankRoll)) / 
-        //     (_BankRoll*_DecimalPayoutOdds)
-        // );
     }
 
     function getProbabilityKellyCasino() public view returns(uint)
     {
         return
         (
-            (_Multiplier * 
-            (_DecimalPayoutOdds - _Multiplier) * 
-            (_UserBetSize * _FractionalKelly + _BankRoll)) / 
+            (_Multiplier *
+            (_DecimalPayoutOdds - _Multiplier) *
+            (_UserBetSize * _FractionalKelly + _BankRoll)) /
             (_BankRoll*_DecimalPayoutOdds)
         );
     }
@@ -118,8 +110,8 @@ contract EdgeFundPOC{
 
         // return ((ProbabilityWinCasino * CasinoDecimalPayoutOdds) / _Multiplier) - _Multiplier;
 
-        return ((_Multiplier * _Multiplier * 
-        (_DecimalWinOdds - _DecimalPayoutOdds)) / 
+        return ((_Multiplier * _Multiplier *
+        (_DecimalWinOdds - _DecimalPayoutOdds)) /
         (_DecimalWinOdds * (_DecimalPayoutOdds - _Multiplier)));
 
         //return (_DecimalPayoutOdds - _DecimalWinOdds) / (_DecimalWinOdds - (_DecimalPayoutOdds * _DecimalWinOdds));
@@ -153,19 +145,19 @@ contract EdgeFundPOC{
 
         return (CasinoLiability * EdgeKellyCasino) / _Multiplier;
     }
-    
+
     function getEVKellyUser() public view returns(uint)
     {
         uint EdgeKellyUser = this.getEdgeKellyUser();
 
         return (_UserBetSize * EdgeKellyUser) / _Multiplier;
     }
-    
+
     function getEVTotalCasino() public view returns(uint)
     {
         return _UserBetSize - ((_UserBetSize * _DecimalPayoutOdds) / _DecimalWinOdds);
     }
-    
+
     function getEVTotalUser() public view returns(uint)
     {
         return (_UserBetSize * (_DecimalWinOdds - _DecimalPayoutOdds)) / _DecimalWinOdds;
