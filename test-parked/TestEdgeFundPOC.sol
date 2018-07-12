@@ -17,8 +17,8 @@ contract TestEdgeFundPOC{
 
         //Assert
         Assert.equal(
-            actual, 
-            expected, 
+            actual,
+            expected,
             "Expected 100000000"
         );
     }
@@ -34,12 +34,11 @@ contract TestEdgeFundPOC{
 
         //Assert
         Assert.equal(
-            actual, 
-            expected, 
+            actual,
+            expected,
             "Expected 10000000000000000"
         );
     }
-
 
     function testCasinoDecimalPayoutOdds() public
     {
@@ -53,8 +52,8 @@ contract TestEdgeFundPOC{
 
         //Assert
         Assert.equal(
-            actual, 
-            expected, 
+            actual,
+            expected,
             "Expected 102857142 (102857142.9, actually)"
         );
     }
@@ -71,8 +70,8 @@ contract TestEdgeFundPOC{
 
         //Assert
         Assert.equal(
-            actual, 
-            expected, 
+            actual,
+            expected,
             "Expected 350000000000"
         );
     }
@@ -89,8 +88,8 @@ contract TestEdgeFundPOC{
 
         //Assert
         Assert.equal(
-            actual, 
-            expected, 
+            actual,
+            expected,
             "Expected 35000"
         );
     }
@@ -107,8 +106,8 @@ contract TestEdgeFundPOC{
 
         //Assert
         Assert.equal(
-            actual, 
-            expected, 
+            actual,
+            expected,
             "Expected 1000"
         );
     }
@@ -125,8 +124,8 @@ contract TestEdgeFundPOC{
 
     //     //Assert
     //     Assert.equal(
-    //         actual, 
-    //         expected, 
+    //         actual,
+    //         expected,
     //         "EdgeFund Bankroll should be configured to have 1000000 initially"
     //     );
     // }
@@ -139,23 +138,23 @@ contract TestEdgeFundPOC{
     //     //Act
     //     uint expected = 97223194;
     //     uint actual = ef.Temp();
-        
+
     //     //Assert
     //     Assert.equal(
-    //         actual, 
-    //         expected, 
+    //         actual,
+    //         expected,
     //         "Test should return 97223194"
     //     );
     // }
 
-   
-    // function testCasinoDecimalPayoutOdds() public 
+
+    // function testCasinoDecimalPayoutOdds() public
     // {
     //     //TODO
     //     Assert.equal(true, true, "todo");
     // }
 
-    // function testCasinoPotentialLiability() public 
+    // function testCasinoPotentialLiability() public
     // {
     //     //TODO
     //     Assert.equal(true, true, "todo");

@@ -1,4 +1,4 @@
-
+const EdgeFundPOC = artifacts.require('./EdgeFundPOC.sol');
 const EdgeTestCrowdSale = artifacts.require('./EdgeTestCrowdSale.sol');
 const EdgeTestCoin = artifacts.require('./EdgeTestCoin.sol');
 const EdgeFund = artifacts.require("./EdgeFund.sol");
@@ -25,5 +25,7 @@ module.exports = function(deployer, network, accounts) {
             );
         }).then(() => {
             return deployer.deploy(EdgeFund);
-        });
+        }).then(() => {
+            return deployer.deploy(EdgeFundPOC);
+        })
 };
