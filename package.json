@@ -1,7 +1,29 @@
 {
-  "requires": true,
-  "lockfileVersion": 1,
+  "name": "edgefund-core",
+  "version": "0.0.1",
+  "description": "EdgeFund Core contracts and tests",
+  "directories": {
+    "test": "test"
+  },
   "dependencies": {
-    "openzeppelin-solidity": "^1.9.0"
-  }
+    "openzeppelin-solidity": "^1.10.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "truffle test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/edgefund/edgefund-core.git"
+  },
+  "keywords": [
+    "EdgeFund",
+    "Solidity"
+  ],
+  "author": "EdgeFund",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/edgefund/edgefund-core/issues"
+  },
+  "homepage": "https://github.com/edgefund/edgefund-core#readme"
 }

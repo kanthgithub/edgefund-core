@@ -58,11 +58,13 @@ contract EdgeFund{
         for(uint i = 0; i < existingBets.length; i++){
             if(!existingBets[i].Resolved)
             {
-                //Steps to resolve a bet
-                //check that the current block is > the bet-placed block
-                //check that the amount being paid out on this block is < block reward
-                //get the blockhash of the resolving block
-                //get the result of the bet for the given resolution-block
+                /*Steps to resolve a bet
+                * check that the current block is > the bet-placed block
+                * check that the amount being paid out on this block is < block reward
+                * get the blockhash of the resolving block
+                * get the result of the bet for the given resolution-block
+                */
+
                 require(block.number > existingBets[i].PlacedBlockNumber);
                 bytes32 ResolutionblockHash = blockhash(existingBets[i].PlacedBlockNumber+1);
                 bytes32 HashedValue = keccak256(existingBets[i].Player, ResolutionblockHash);
