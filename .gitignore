@@ -1,4 +1,6 @@
 contracts/.placeholder
 test/.placeholder
 build
+.vs
+bin
 node_modules
