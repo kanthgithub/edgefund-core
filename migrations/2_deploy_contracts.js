@@ -10,22 +10,19 @@ module.exports = function(deployer, network, accounts) {
     const rate = new web3.BigNumber(1000);
     const wallet = accounts[1];
 
-    return deployer
-        .then(() => {
-            return deployer.deploy(EdgeTestCoin);
-        })
-        .then(() => {
-            return deployer.deploy(
-                EdgeTestCrowdSale,
-                openingTime,
-                closingTime,
-                rate,
-                wallet,
-                EdgeTestCoin.address
-            );
-        }).then(() => {
-            return deployer.deploy(EdgeFund);
-        }).then(() => {
-            return deployer.deploy(EdgeFundPOC);
-        })
-};
+    return deployer.then(async () =>
+    {
+        await deployer.deploy(EdgeTestCoin);
+        await deployer.deploy(EdgeFund);
+        await deployer.deploy(EdgeFundPOC);
+
+        return deployer.deploy(
+            EdgeTestCrowdSale,
+            openingTime,
+            closingTime,
+            rate,
+            wallet,
+            EdgeTestCoin.address
+        );
+    });
+}

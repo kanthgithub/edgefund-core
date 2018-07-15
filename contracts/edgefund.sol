@@ -7,7 +7,7 @@ contract EdgeFund{
     uint _betBlock;
     uint _dummy;
 
-    uint Multiplier = 10**8;
+    uint Multiplier = 10 ** 8;
     uint FractionalKelly = 1 * Multiplier;
 
     //temporary
@@ -55,8 +55,9 @@ contract EdgeFund{
     function ResolveBets() public view returns(bool)
     {
         Bet[] storage existingBets = playerBets[msg.sender];
-        for(uint i = 0; i < existingBets.length; i++){
-            if(!existingBets[i].Resolved)
+
+        for (uint i = 0; i < existingBets.length; i++){
+            if (!existingBets[i].Resolved)
             {
                 /*
                 * Steps to resolve a bet
@@ -67,9 +68,13 @@ contract EdgeFund{
                 */
 
                 require(block.number > existingBets[i].PlacedBlockNumber);
-                bytes32 ResolutionblockHash = blockhash(existingBets[i].PlacedBlockNumber+1);
-                bytes32 HashedValue = keccak256(abi.encodePacked(existingBets[i].Player, ResolutionblockHash));
-                uint Result = uint8(uint256(HashedValue)%existingBets[i].WinOdds);
+
+                bytes32 ResolutionblockHash = blockhash(existingBets[i].PlacedBlockNumber + 1);
+                bytes32 HashedValue = keccak256(
+                    abi.encodePacked(existingBets[i].Player, ResolutionblockHash)
+                );
+                uint Result = uint8(uint256(HashedValue) % existingBets[i].WinOdds);
+
                 Result == 0 ? true : false;
             }
         }
@@ -96,6 +101,7 @@ contract EdgeFund{
     function Temp() public view returns(uint){
         uint BetSize = 100 * Multiplier;
         uint PayoutOdds = 36 * Multiplier;
+
         return Multiplier *
             (PayoutOdds - Multiplier) *
             (BetSize * Multiplier + FractionalKelly * Bankroll) /
@@ -134,10 +140,10 @@ contract EdgeFund{
     // EdgeFund.deployed().then(function(instance){return instance.ResolveBet();});
     function ResolveBet() public view returns(string) {
         bytes32 blockHash = blockhash(_betBlock+1);
-        require(blockHash!=0);
+        require(blockHash != 0);
 
         bytes32 HashedValue = keccak256(abi.encodePacked(_betAddress, blockHash));
-        uint CoinTossResult = uint8(uint256(HashedValue)%2);//heads = 1, tails = 0
+        uint CoinTossResult = uint8(uint256(HashedValue) % 2);//heads = 1, tails = 0
 
         if (CoinTossResult == 1 && _isHeads){
             return "You Win!";
