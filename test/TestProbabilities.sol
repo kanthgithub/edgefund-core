@@ -7,12 +7,12 @@ import "../contracts/EdgeFundPOC.sol";
 contract TestProbabilities
 {
 
-    uint _ProbabilityKellyCasino = 97223194;
-    uint _ProbabilityKellyUser = 2776806;
-    uint _ProbabilityWinCasino = 97368421;
-    uint _ProbabilityWinUser = 2631578; 
-    uint _ProbabilityFairCasino = 97222223;
-    uint _ProbabilityFairUser = 2777777;
+    int _ProbabilityKellyCasino = 97223194;
+    int _ProbabilityKellyUser = 2776806;
+    int _ProbabilityWinCasino = 97368421;
+    int _ProbabilityWinUser = 2631578; 
+    int _ProbabilityFairCasino = 97222223;
+    int _ProbabilityFairUser = 2777777;
 
     EdgeFundPOC ef;
 
@@ -23,8 +23,8 @@ contract TestProbabilities
 
     function testProbabilityKellyCasino() public
     {
-        uint expected = _ProbabilityKellyCasino; // 97223194.4
-        uint actual = ef.getProbabilityKellyCasino();
+        int expected = _ProbabilityKellyCasino; // 97223194.4
+        int actual = ef.getProbabilityKellyCasino();
 
         Assert.equal(
             actual,
@@ -35,8 +35,8 @@ contract TestProbabilities
 
     function testProbabilityKellyUser() public
     {
-        uint expected = _ProbabilityKellyUser; //2776805.6
-        uint actual = ef.getProbabilityKellyUser();
+        int expected = _ProbabilityKellyUser; //2776805.6
+        int actual = ef.getProbabilityKellyUser();
 
         Assert.equal(
             actual,
@@ -47,8 +47,8 @@ contract TestProbabilities
 
     function testProbabilityWinCasino() public
     {
-        uint expected = _ProbabilityWinCasino; //97368421.1
-        uint actual = ef.getProbabilityWinCasino();
+        int expected = _ProbabilityWinCasino; //97368421.1
+        int actual = ef.getProbabilityWinCasino();
 
         Assert.equal(
             actual,
@@ -59,8 +59,8 @@ contract TestProbabilities
 
     function testProbabilityWinUser() public
     {
-        uint expected = _ProbabilityWinUser; //2631578.9
-        uint actual = ef.getProbabilityWinUser();
+        int expected = _ProbabilityWinUser; //2631578.9
+        int actual = ef.getProbabilityWinUser();
 
         Assert.equal(
             actual,
@@ -71,8 +71,8 @@ contract TestProbabilities
 
     function testProbabilityFairCasino() public
     {
-        uint expected = _ProbabilityFairCasino; //97222222.2
-        uint actual = ef.getProbabilityFairCasino();
+        int expected = _ProbabilityFairCasino; //97222222.2
+        int actual = ef.getProbabilityFairCasino();
 
         Assert.equal(
             actual,
@@ -83,8 +83,8 @@ contract TestProbabilities
 
     function testProbabilityFairUser() public
     {
-        uint expected = _ProbabilityFairUser; //2777777.8
-        uint actual = ef.getProbabilityFairUser();
+        int expected = _ProbabilityFairUser; //2777777.8
+        int actual = ef.getProbabilityFairUser();
 
         Assert.equal(
             actual,

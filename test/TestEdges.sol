@@ -6,12 +6,12 @@ import "../contracts/EdgeFundPOC.sol";
 
 contract TestEdges
 {
-    uint _EdgeKellyCasino = 1000;
-    uint _EdgeKellyUser = 35000;
-    uint _EdgeTotalCasino = 150375;
-    uint _EdgeTotalUser = 5263158;
-    uint _EdgeGameOperatorCasino = 149375;
-    uint _EdgeGameOperatorUser = 5228158;
+    int _EdgeKellyCasino = 1000;
+    int _EdgeKellyUser = 35000;
+    int _EdgeTotalCasino = 150375;
+    int _EdgeTotalUser = 5263158;
+    int _EdgeGameOperatorCasino = 149375;
+    int _EdgeGameOperatorUser = 5228158;
 
     EdgeFundPOC ef;
 
@@ -22,8 +22,8 @@ contract TestEdges
 
     function testEdgeKellyCasino() public
     {
-        uint expected = _EdgeKellyCasino; // 1000.0
-        uint actual = ef.getEdgeKellyCasino();
+        int expected = _EdgeKellyCasino; // 1000.0
+        int actual = ef.getEdgeKellyCasino();
 
         Assert.equal(
             actual,
@@ -34,8 +34,8 @@ contract TestEdges
 
     function testEdgeKellyUser() public
     {
-        uint expected = _EdgeKellyUser; // 35000
-        uint actual = ef.getEdgeKellyUser();
+        int expected = _EdgeKellyUser; // 35000
+        int actual = ef.getEdgeKellyUser();
 
         Assert.equal(
             actual,
@@ -46,8 +46,8 @@ contract TestEdges
 
     function testEdgeTotalCasino() public
     {
-        uint expected = _EdgeTotalCasino; // 150375.9
-        uint actual = ef.getEdgeTotalCasino();
+        int expected = _EdgeTotalCasino; // 150375.9
+        int actual = ef.getEdgeTotalCasino();
 
         Assert.equal(
             actual,
@@ -58,8 +58,8 @@ contract TestEdges
 
     function testEdgeTotalUser() public
     {
-        uint expected = _EdgeTotalUser; // -5263157.9
-        uint actual = ef.getEdgeTotalUser();
+        int expected = _EdgeTotalUser; // -5263157.9
+        int actual = ef.getEdgeTotalUser();
 
         Assert.equal(
             actual,
@@ -70,8 +70,8 @@ contract TestEdges
 
     function testEdgeGameOperatorCasino() public
     {
-        uint expected = _EdgeGameOperatorCasino; // 149375.9
-        uint actual = ef.getEdgeGameOperatorCasino();
+        int expected = _EdgeGameOperatorCasino; // 149375.9
+        int actual = ef.getEdgeGameOperatorCasino();
 
         Assert.equal(
             actual,
@@ -82,8 +82,8 @@ contract TestEdges
 
     function testEdgeGameOperatorUser() public
     {
-        uint expected = _EdgeGameOperatorUser; // -5228157.9
-        uint actual = ef.getEdgeGameOperatorUser();
+        int expected = _EdgeGameOperatorUser; // -5228157.9
+        int actual = ef.getEdgeGameOperatorUser();
 
         Assert.equal(
             actual,

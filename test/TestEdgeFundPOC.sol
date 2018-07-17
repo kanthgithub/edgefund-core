@@ -12,8 +12,8 @@ contract TestEdgeFundPOC{
         EdgeFundPOC ef = new EdgeFundPOC();
 
         //Act
-        uint expected = 10**8;
-        uint actual = ef.getMultiplier();
+        int expected = 10**8;
+        int actual = ef.getMultiplier();
 
         //Assert
         Assert.equal(
@@ -29,8 +29,8 @@ contract TestEdgeFundPOC{
         EdgeFundPOC ef = new EdgeFundPOC();
 
         //Act
-        uint expected = 10000000 * 10**8;
-        uint actual = ef.getBankRoll();
+        int expected = 10000000 * 10**8;
+        int actual = ef.getBankRoll();
 
         //Assert
         Assert.equal(
@@ -47,8 +47,8 @@ contract TestEdgeFundPOC{
 
         //Act
         //The actual result of this calc is "102857142.9", should end in 3, not 2
-        uint expected = 102857142; //CHECK THIS. SHOULD BE 102857143
-        uint actual = ef.getCasinoDecimalPayoutOdds();
+        int expected = 102857142; //CHECK THIS. SHOULD BE 102857143
+        int actual = ef.getCasinoDecimalPayoutOdds();
 
         //Assert
         Assert.equal(
@@ -64,9 +64,9 @@ contract TestEdgeFundPOC{
         EdgeFundPOC ef = new EdgeFundPOC();
 
         //Act
-        uint Multiplier = ef.getMultiplier();
-        uint expected = 3500 * Multiplier;
-        uint actual = ef.getCasinoLiability();
+        int Multiplier = ef.getMultiplier();
+        int expected = 3500 * Multiplier;
+        int actual = ef.getCasinoLiability();
 
         //Assert
         Assert.equal(
@@ -83,8 +83,8 @@ contract TestEdgeFundPOC{
 
         //Act
         //uint Multiplier = ef.getMultiplier();
-        uint expected = 35000;
-        uint actual = ef.getFStar();
+        int expected = 35000;
+        int actual = ef.getFStar();
 
         //Assert
         Assert.equal(
@@ -101,8 +101,8 @@ contract TestEdgeFundPOC{
 
         //Act
         //uint Multiplier = ef.getMultiplier();
-        uint expected = 1000;
-        uint actual = ef.getKellyEdge();
+        int expected = 1000;
+        int actual = ef.getKellyEdge();
 
         //Assert
         Assert.equal(
@@ -111,53 +111,4 @@ contract TestEdgeFundPOC{
             "Expected 1000"
         );
     }
-
-    // function testInitialBalance() public
-    // {
-    //     //Arrange
-    //     EdgeFund ef = EdgeFund(DeployedAddresses.EdgeFund());
-
-    //     //Act
-    //     uint Multiplier = 10**8;
-    //     uint expected = 10000000 * Multiplier;
-    //     uint actual = ef.getBankrollBalance();
-
-    //     //Assert
-    //     Assert.equal(
-    //         actual,
-    //         expected,
-    //         "EdgeFund Bankroll should be configured to have 1000000 initially"
-    //     );
-    // }
-
-    // function testTemporaryCalculation() public
-    // {
-    //     //Arrange
-    //     EdgeFund ef = EdgeFund(DeployedAddresses.EdgeFund());
-
-    //     //Act
-    //     uint expected = 97223194;
-    //     uint actual = ef.Temp();
-
-    //     //Assert
-    //     Assert.equal(
-    //         actual,
-    //         expected,
-    //         "Test should return 97223194"
-    //     );
-    // }
-
-
-    // function testCasinoDecimalPayoutOdds() public
-    // {
-    //     //TODO
-    //     Assert.equal(true, true, "todo");
-    // }
-
-    // function testCasinoPotentialLiability() public
-    // {
-    //     //TODO
-    //     Assert.equal(true, true, "todo");
-    // }
-
 }

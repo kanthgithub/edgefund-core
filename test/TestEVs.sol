@@ -7,12 +7,12 @@ import "../contracts/EdgeFundPOC.sol";
 contract TestEVs
 {
 
-    uint _EVKellyCasino = 3500000;
-    uint _EVKellyUser = 3500000;
-    uint _EVTotalCasino = 526315790;
-    uint _EVTotalUser = 526315789; //Should be exactly the same as the Casino number
-    uint _EVGameOperatorCasino = 522815790;
-    uint _EVGameOperatorUser = 522815790;
+    int _EVKellyCasino = 3500000;
+    int _EVKellyUser = 3500000;
+    int _EVTotalCasino = 526315790;
+    int _EVTotalUser = 526315789; //Should be exactly the same as the Casino number
+    int _EVGameOperatorCasino = 522815790;
+    int _EVGameOperatorUser = 522815790;
 
     EdgeFundPOC ef;
 
@@ -23,8 +23,8 @@ contract TestEVs
 
     function testEVKellyCasino() public
     {
-        uint expected = _EVKellyCasino; // 3500000.0
-        uint actual = ef.getEVKellyCasino();
+        int expected = _EVKellyCasino; // 3500000.0
+        int actual = ef.getEVKellyCasino();
 
         Assert.equal(
             actual,
@@ -34,8 +34,8 @@ contract TestEVs
     }
     function testEVKellyUser() public
     {
-        uint expected = _EVKellyUser; // 3500000.0
-        uint actual = ef.getEVKellyUser();
+        int expected = _EVKellyUser; // 3500000.0
+        int actual = ef.getEVKellyUser();
 
         Assert.equal(
             actual,
@@ -46,8 +46,8 @@ contract TestEVs
     
     function testEVTotalCasino() public
     {
-        uint expected = _EVTotalCasino; // 526315789.5
-        uint actual = ef.getEVTotalCasino();
+        int expected = _EVTotalCasino; // 526315789.5
+        int actual = ef.getEVTotalCasino();
 
         Assert.equal(
             actual,
@@ -58,8 +58,8 @@ contract TestEVs
     
     function testEVTotalUser() public
     {
-        uint expected = _EVTotalUser; // 526315789.5
-        uint actual = ef.getEVTotalUser();
+        int expected = _EVTotalUser; // 526315789.5
+        int actual = ef.getEVTotalUser();
 
         Assert.equal(
             actual,
@@ -70,8 +70,8 @@ contract TestEVs
 
     function testEVGameOperatorCasino() public
     {
-        uint expected = _EVGameOperatorCasino; // 522815789.5
-        uint actual = ef.getEVGameOperatorCasino();
+        int expected = _EVGameOperatorCasino; // 522815789.5
+        int actual = ef.getEVGameOperatorCasino();
 
         Assert.equal(
             actual,
@@ -82,8 +82,8 @@ contract TestEVs
 
     function testEVGameOperatorUser() public
     {
-        uint expected = _EVGameOperatorUser; // -522815789.5
-        uint actual = ef.getEVGameOperatorCasino();
+        int expected = _EVGameOperatorUser; // -522815789.5
+        int actual = ef.getEVGameOperatorCasino();
 
         Assert.equal(
             actual,
