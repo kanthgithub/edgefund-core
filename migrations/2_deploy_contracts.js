@@ -3,7 +3,6 @@ const EdgeTestCrowdSale = artifacts.require('./EdgeTestCrowdSale.sol');
 const EdgeTestCoin = artifacts.require('./EdgeTestCoin.sol');
 const EdgeFund = artifacts.require("./EdgeFund.sol");
 
-
 module.exports = function(deployer, network, accounts) {
     const openingTime = web3.eth.getBlock('latest').timestamp + 2; // two secs in the future
     const closingTime = openingTime + 86400 * 20; // 20 days
