@@ -1,4 +1,11 @@
-timeTravel = (time) => {
+advanceTimeAndBlock = async (time) => {
+    await advanceTime(time);
+    await advanceBlock();
+
+    return Promise.resolve(web3.eth.getBlock('latest'));
+}
+
+advanceTime = (time) => {
     return new Promise((resolve, reject) => {
         web3.currentProvider.sendAsync({
             jsonrpc: "2.0",
@@ -7,8 +14,7 @@ timeTravel = (time) => {
             id: new Date().getTime()
         }, (err, result) => {
             if (err) { return reject(err); }
-
-            return resolve(result)
+            return resolve(result);
         });
     });
 }
@@ -20,9 +26,8 @@ advanceBlock = () => {
             method: "evm_mine",
             id: new Date().getTime()
         }, (err, result) => {
-            const newBlockHash = web3.eth.getBlock('latest').hash;
-
             if (err) { return reject(err); }
+            const newBlockHash = web3.eth.getBlock('latest').hash;
 
             return resolve(newBlockHash)
         });
@@ -30,6 +35,7 @@ advanceBlock = () => {
 }
 
 module.exports = {
-    timeTravel,
-    advanceBlock
+    advanceTime,
+    advanceBlock,
+    advanceTimeAndBlock
 }

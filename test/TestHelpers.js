@@ -9,4 +9,13 @@ describe("Testing Helper Functions", () => {
 
         assert.notEqual(originalBlockHash, newBlockHash);
     });
+
+    it("should be able to advance time and block together", async () => {
+        const advancement = 600;
+        const originalBlock = web3.eth.getBlock('latest');
+        const newBlock = await helper.advanceTimeAndBlock(advancement);
+        const timeDiff = newBlock.timestamp - originalBlock.timestamp;
+
+        assert.isTrue(timeDiff > advancement);
+    });
 });
