@@ -11,19 +11,17 @@ contract('testing EdgeFund Contract', async (accounts) =>{
     });
 
     // test the eval_mine function
-    it("should advance the blockchain forward a block", async () =>{
-        let initialBlock = 0 // get blockhash
+    it("should advance the blockchain forward a block", (done) =>{
+        const originalBlockHash = web3.eth.getBlock('latest').hash;
+        let newBlockHash = web3.eth.getBlock('latest').hash;;
 
         web3.currentProvider.sendAsync({
             jsonrpc: "2.0",
             method: "evm_mine",
             id: 12345
-          }, function(err, result) {
-            // this is your callback
-          });
-
-          let finalBlock = 1 // get blockhas
-
-          assert.notEqual(initialBlock, finalBlock);
+            }, (error, result) => {
+                newBlockHash = web3.eth.getBlock('latest').hash;
+                (newBlockHash != originalBlockHash) ? done() : done(new Error("Block not mined"));
+            });
     });
 })
