@@ -40,17 +40,4 @@ contract TestEdgeFund{
             "Test should return 97223194"
         );
     }
-
-   
-    function testCasinoDecimalPayoutOdds() public 
-    {
-        //TODO
-        Assert.equal(true, true, "todo");
-    }
-
-    function testCasinoPotentialLiability() public 
-    {
-        //TODO
-        Assert.equal(true, true, "todo");
-    }
 }
