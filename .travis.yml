@@ -1,0 +1,31 @@
+sudo: required
+
+notifications:
+  email:
+    recipients:
+      - build@edgefund.net
+    on_success: never
+    on_failure: always
+
+branches:
+  only:
+  - master
+
+language: node_js
+
+node_js:
+ - "8"
+
+services:
+  - docker
+
+before_install:
+  - docker pull trufflesuite/ganache-cli
+  - docker run -d -p 8545:8545 trufflesuite/ganache-cli:latest -a 10 -h 0.0.0.0
+
+install:
+  - npm install -g truffle
+  - npm install
+
+script:
+  - truffle test

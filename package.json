@@ -6,8 +6,7 @@
     "test": "test"
   },
   "dependencies": {
-    "openzeppelin-solidity": "^1.10.0",
-    "truffle": "^4.1.13"
+    "openzeppelin-solidity": "^1.10.0"
   },
   "devDependencies": {},
   "scripts": {
