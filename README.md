@@ -1,5 +1,6 @@
 # EdgeFund Core Platform
 
+[![Travis](https://img.shields.io/travis/edgefund/edgefund-core.svg)](https://travis-ci.org/edgefund/edgefund-core)
 ![logo](/assets/edgefund.png "EdgeFundLogo")
 
 [![Twitter Follow](https://img.shields.io/twitter/follow/edgefundteam.svg?style=social&label=Follow)](https://www.twitter.com/edgefundteam)
