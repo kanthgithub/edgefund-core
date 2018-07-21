@@ -2,7 +2,7 @@ pragma solidity ^0.4.23;
 
 import "truffle/Assert.sol";
 import "truffle/DeployedAddresses.sol";
-import "../contracts/EdgeFundPOC.sol";
+import "../contracts/EdgeFundBettingFunctions.sol";
 
 contract TestEVs
 {
@@ -14,11 +14,11 @@ contract TestEVs
     int _EVGameOperatorCasino = 522815790;
     int _EVGameOperatorUser = 522815790;
 
-    EdgeFundPOC ef;
+    EdgeFundBettingFunctions ef;
 
     constructor()
     {
-        ef = new EdgeFundPOC();
+        ef = new EdgeFundBettingFunctions();
     }
 
     function testEVKellyCasino() public

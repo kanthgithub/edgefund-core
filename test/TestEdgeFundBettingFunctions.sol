@@ -2,14 +2,14 @@ pragma solidity ^0.4.23;
 
 import "truffle/Assert.sol";
 import "truffle/DeployedAddresses.sol";
-import "../contracts/EdgeFundPOC.sol";
+import "../contracts/EdgeFundBettingFunctions.sol";
 
-contract TestEdgeFundPOC{
+contract TestEdgeFundBettingFunctions{
 
     function testMultiplier() public
     {
         //Arrange
-        EdgeFundPOC ef = new EdgeFundPOC();
+        EdgeFundBettingFunctions ef = new EdgeFundBettingFunctions();
 
         //Act
         int expected = 10**8;
@@ -26,7 +26,7 @@ contract TestEdgeFundPOC{
     function testBankRoll() public
     {
         //Arrange
-        EdgeFundPOC ef = new EdgeFundPOC();
+        EdgeFundBettingFunctions ef = new EdgeFundBettingFunctions();
 
         //Act
         int expected = 10000000 * 10**8;
@@ -43,7 +43,7 @@ contract TestEdgeFundPOC{
     function testCasinoDecimalPayoutOdds() public
     {
         //Arrange
-        EdgeFundPOC ef = new EdgeFundPOC();
+        EdgeFundBettingFunctions ef = new EdgeFundBettingFunctions();
 
         //Act
         //The actual result of this calc is "102857142.9", should end in 3, not 2
@@ -61,7 +61,7 @@ contract TestEdgeFundPOC{
     function testCasinoLiability() public
     {
         //Arrange
-        EdgeFundPOC ef = new EdgeFundPOC();
+        EdgeFundBettingFunctions ef = new EdgeFundBettingFunctions();
 
         //Act
         int Multiplier = ef.getMultiplier();
@@ -79,7 +79,7 @@ contract TestEdgeFundPOC{
     function testFStar() public
     {
         //Arrange
-        EdgeFundPOC ef = new EdgeFundPOC();
+        EdgeFundBettingFunctions ef = new EdgeFundBettingFunctions();
 
         //Act
         //uint Multiplier = ef.getMultiplier();
@@ -97,7 +97,7 @@ contract TestEdgeFundPOC{
     function testKellyEdge() public
     {
         //Arrange
-        EdgeFundPOC ef = new EdgeFundPOC();
+        EdgeFundBettingFunctions ef = new EdgeFundBettingFunctions();
 
         //Act
         //uint Multiplier = ef.getMultiplier();

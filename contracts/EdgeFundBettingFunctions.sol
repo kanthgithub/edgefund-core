@@ -1,6 +1,6 @@
 pragma solidity ^0.4.24;
 
-contract EdgeFundPOC{
+contract EdgeFundBettingFunctions{
 
     int _Multiplier = 10 ** 8;
 
