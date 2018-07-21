@@ -1,6 +1,6 @@
 pragma solidity ^0.4.23;
 
-import "openzeppelin-solidity/contracts/token/ERC20/MintableToken.sol";
+import "../node_modules/openzeppelin-solidity/contracts/token/ERC20/MintableToken.sol";
 
 contract EdgeTestCoin is MintableToken {
     string public name = "EDGEFUND COIN";
