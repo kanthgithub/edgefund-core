@@ -3,6 +3,7 @@
 ![logo](/assets/edgefund.png "EdgeFundLogo")
 
 [![Travis](https://img.shields.io/travis/edgefund/edgefund-core.svg)](https://travis-ci.org/edgefund/edgefund-core)
+[![Coverage Status](https://coveralls.io/repos/github/edgefund/edgefund-core/badge.svg?branch=master)](https://coveralls.io/github/edgefund/edgefund-core?branch=master)
 [![Twitter Follow](https://img.shields.io/twitter/follow/edgefundteam.svg?style=social&label=Follow)](https://www.twitter.com/edgefundteam)
 
 This repository contains the core smart contracts used on the EdgeFund platform, including tests and truffle local development tools.

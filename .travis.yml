@@ -25,7 +25,11 @@ before_install:
 
 install:
   - npm install -g truffle
+  - npm install -g coveralls
   - npm install
 
 script:
   - truffle test
+
+after_script:
+  - npm run coverage && cat coverage/lcov.info | coveralls

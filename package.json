@@ -5,13 +5,15 @@
   "directories": {
     "test": "test"
   },
-  "dependencies": {
-    "openzeppelin-solidity": "^1.10.0"
+  "dependencies": {},
+  "devDependencies": {
+    "coveralls": "^3.0.2",
+    "solidity-coverage": "^0.5.5"
   },
-  "devDependencies": {},
   "scripts": {
     "test": "truffle test",
-    "build": "truffle compile"
+    "build": "truffle compile",
+    "coverage": "./node_modules/.bin/solidity-coverage"
   },
   "repository": {
     "type": "git",
