@@ -10,13 +10,13 @@ contract TestProbabilities
     int _ProbabilityKellyCasino = 97223194;
     int _ProbabilityKellyUser = 2776806;
     int _ProbabilityWinCasino = 97368421;
-    int _ProbabilityWinUser = 2631578; 
+    int _ProbabilityWinUser = 2631578;
     int _ProbabilityFairCasino = 97222223;
     int _ProbabilityFairUser = 2777777;
 
     EdgeFundBettingFunctions ef;
 
-    constructor()
+    constructor() public
     {
         ef = new EdgeFundBettingFunctions();
     }

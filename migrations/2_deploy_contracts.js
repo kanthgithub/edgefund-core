@@ -2,6 +2,7 @@ const EdgeFundBettingFunctions = artifacts.require('./EdgeFundBettingFunctions.s
 const EdgeTestCrowdSale = artifacts.require('./EdgeTestCrowdSale.sol');
 const EdgeTestCoin = artifacts.require('./EdgeTestCoin.sol');
 const EdgeFund = artifacts.require("./EdgeFund.sol");
+const CoinToss = artifacts.require("./CoinToss.sol");
 
 module.exports = function(deployer, network, accounts) {
     const openingTime = web3.eth.getBlock('latest').timestamp + 2; // two secs in the future
@@ -14,6 +15,7 @@ module.exports = function(deployer, network, accounts) {
         await deployer.deploy(EdgeTestCoin);
         await deployer.deploy(EdgeFund);
         await deployer.deploy(EdgeFundBettingFunctions);
+        await deployer.deploy(CoinToss);
 
         return deployer.deploy(
             EdgeTestCrowdSale,

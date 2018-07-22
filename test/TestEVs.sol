@@ -16,7 +16,7 @@ contract TestEVs
 
     EdgeFundBettingFunctions ef;
 
-    constructor()
+    constructor() public
     {
         ef = new EdgeFundBettingFunctions();
     }
@@ -43,7 +43,7 @@ contract TestEVs
             "Excel calculated number is: 3500000.0"
         );
     }
-    
+
     function testEVTotalCasino() public
     {
         int expected = _EVTotalCasino; // 526315789.5
@@ -55,7 +55,7 @@ contract TestEVs
             "Excel calculated number is: 526315789.5"
         );
     }
-    
+
     function testEVTotalUser() public
     {
         int expected = _EVTotalUser; // 526315789.5

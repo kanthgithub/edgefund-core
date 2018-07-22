@@ -15,7 +15,7 @@ contract TestEdges
 
     EdgeFundBettingFunctions ef;
 
-    constructor()
+    constructor() public
     {
         ef = new EdgeFundBettingFunctions();
     }
