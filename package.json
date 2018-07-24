@@ -5,7 +5,10 @@
   "directories": {
     "test": "test"
   },
-  "dependencies": {},
+  "dependencies": {
+    "dotenv": "^6.0.0",
+    "truffle-hdwallet-provider": "0.0.5"
+  },
   "devDependencies": {
     "coveralls": "^3.0.2",
     "solidity-coverage": "^0.5.5"
