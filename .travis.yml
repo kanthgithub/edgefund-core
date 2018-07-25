@@ -37,6 +37,6 @@ after_script:
 
 deploy:
   provider: script
-  script: truffle migrate -f 3 --network rinkeby # 3 refers to migrations/3_deploy_cointoss.js
+  script: deploy.sh
   on:
     branch: rinkeby
