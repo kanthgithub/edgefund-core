@@ -9,7 +9,7 @@ notifications:
 
 branches:
   only:
-  - master
+  - rinkeby
 
 language: node_js
 
@@ -39,4 +39,4 @@ deploy:
   script: truffle migrate -f 3 --network rinkeby # 3 refers to migrations/3_deploy_cointoss.js
   on:
     tags: true
-    branch: master
+    branch: rinkeby
