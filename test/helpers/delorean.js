@@ -5,6 +5,18 @@ const advanceTimeAndBlock = async (time) => {
     return Promise.resolve(web3.eth.getBlock('latest'));
 };
 
+const advanceMultipleBlocks = async (numberOfBlocksToAdvance) => {
+    const promises = [];
+
+    for (let i = 0; i < numberOfBlocksToAdvance; i++) {
+        promises.push(advanceBlock());
+    }
+
+    Promise.all(promises).then(() => {
+        return Promise.resolve(web3.eth.getBlock('latest'));
+    });
+};
+
 const advanceTime = (time) => {
     return new Promise((resolve, reject) => {
         web3.currentProvider.sendAsync({
@@ -39,5 +51,6 @@ const advanceBlock = () => {
 module.exports = {
     advanceTime,
     advanceBlock,
-    advanceTimeAndBlock
+    advanceTimeAndBlock,
+    advanceMultipleBlocks
 };

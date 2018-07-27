@@ -1,5 +1,6 @@
 const CoinToss = artifacts.require('CoinToss');
 const helper = require('./helpers/delorean');
+const CoinTossMock = artifacts.require('CoinTossMock');
 const userBet = false;
 
 contract('testing CoinToss contract', async (accounts) => {
@@ -55,15 +56,50 @@ contract('testing CoinToss contract', async (accounts) => {
 
         const actual = web3.eth.getBlock('latest').number;
 
-        assert.equal(actual, expected);
-    });
-
-    it('should correctly identify a winning bet', async () => {
-        const coinToss = await CoinToss.deployed();
-        const tossResult = await coinToss.getRandomForBet(1);
-        const expected = !!parseInt(tossResult) === userBet;
-        const actual = await coinToss.getResultForBet(1);
-
         assert.equal(expected, actual);
     });
+
+    // Passing an even betID results in a 'win' from the mocked functions.
+    it('should NOT pay out with bet tails, is heads', async () => {
+        const balanceDifference = await testPossibleStates(true, 1, accounts);
+
+        assert(balanceDifference < -1);
+    });
+
+    it('should correctly pay out with bet heads, is heads', async () => {
+        const balanceDifference = await testPossibleStates(true, 0, accounts);
+
+        assert(balanceDifference > 0.98);
+    });
+
+    it('should NOT pay out with bet heads, is tails', async () => {
+        const balanceDifference = await testPossibleStates(false, 0, accounts);
+
+        assert(balanceDifference < -1);
+    });
+
+    it('should correctly pay out with bet tails, is tails', async () => {
+        const balanceDifference = await testPossibleStates(false, 1, accounts);
+
+        assert(balanceDifference > 0.98);
+    });
 });
+
+// Helper functions
+
+const testPossibleStates = async (bet, betID, accounts) => {
+    const coinTossMock = await CoinTossMock.deployed();
+    const initialValueAcc2 = web3.fromWei(web3.eth.getBalance(web3.eth.accounts[2]));
+    const numberOfBlocksToAdvance = 6;
+
+    await coinTossMock.fund({ from: accounts[1], value: 25e17 });
+    await coinTossMock.setBetId(betID);
+
+    await coinTossMock.placeBet(bet, { from: accounts[2], value: 1e18 });
+    await helper.advanceMultipleBlocks(numberOfBlocksToAdvance);
+    await coinTossMock.resolveBet(betID, { from: accounts[2] });
+
+    const finalBalanceAcc2 = web3.fromWei(web3.eth.getBalance(web3.eth.accounts[2]));
+
+    return (finalBalanceAcc2 - initialValueAcc2);
+};

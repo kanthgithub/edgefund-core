@@ -35,11 +35,12 @@ contract CoinToss
     {
         require(msg.value <= MAXIMUM_BET_SIZE);
 
-        counter++;
         coinTosses[counter] = Toss(msg.sender, block.number + 5, betIsHeads, msg.value);
 
         emit betPlaced(counter, msg.sender, betIsHeads, msg.value);
-    }
+
+        counter++;
+        }
 
     function getBetById(uint betId) public view returns(address, uint, bool, uint)
     {
@@ -48,18 +49,12 @@ contract CoinToss
         return (toss.user, toss.block, toss.isHeads, toss.amount);
     }
 
-    function getResultForBet(uint betId) public view returns (bool)
+    function getResultForBet(uint betId, bytes32 resutBlockHash) public pure returns (bool)
     {
-        return getRandomForBet(betId) % 2 == 0;
-    }
+        bytes32 hashedValue = keccak256(abi.encodePacked(resutBlockHash, betId));
+        uint256 result = uint32(hashedValue) % 2;
 
-    function getRandomForBet(uint betId) public view returns (uint)
-    {
-        Toss storage toss = coinTosses[betId];
-        bytes32 resultHash = keccak256(abi.encodePacked(blockhash(toss.block), betId));
-        uint32 resultValue = uint32(resultHash);
-
-        return resultValue % 2;
+        return result == 0;
     }
 
     function resolveBet(uint betId) public
@@ -70,12 +65,9 @@ contract CoinToss
         require(block.number >= toss.block);
         require(block.number <= toss.block + 255);
 
-        bytes32 resultHash = keccak256(abi.encodePacked(blockhash(toss.block), betId));
-        uint32 resultValue = uint32(resultHash);
+        bool isHeads = getResultForBet(betId, blockhash(toss.block));
 
-        bool isHeads = resultValue % 2 == 0;
-
-        if (isHeads && toss.isHeads) {
+        if (isHeads == toss.isHeads) {
             uint payout = toss.amount * 2; // no house edge...
             msg.sender.transfer(payout);
         }
