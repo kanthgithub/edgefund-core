@@ -1,5 +1,6 @@
 const CoinToss = artifacts.require('CoinToss');
 const helper = require('./helpers/delorean');
+const expectThrow = require('./helpers/throwHandler');
 const CoinTossMock = artifacts.require('CoinTossMock');
 const userBet = false;
 
@@ -45,7 +46,28 @@ contract('testing CoinToss contract', async (accounts) => {
         assert.equal(count, 1);
     });
 
-    it('the blockchain should be moved on by a few blocks', async () => {
+    it('should reject a bet above the MAXIMUM_BET_SIZE', async () => {
+        const coinToss = await CoinToss.deployed();
+        const maxBet = await coinToss.MAXIMUM_BET_SIZE.call();
+        const amountToBet = maxBet * 2;
+        const placeBet = coinToss.placeBet(userBet, { from: accounts[1], value: amountToBet });
+
+        await expectThrow(placeBet);
+    });
+
+    it('should reject resolveBet call from incorrect address', async () => {
+        await testResolveBetRequires(123, accounts, 2, 6);
+    });
+
+    it('should reject resolveBet call with insufficient blocks passed', async () => {
+        await testResolveBetRequires(123, accounts, 1, 2);
+    });
+
+    it('should reject resolveBet call with too many blocks passed', async () => {
+        await testResolveBetRequires(123, accounts, 1, 11);
+    });
+
+    it('should advance the blockchain by a few blocks', async () => {
         const numberOfBlocksToAdvance = 6;
         const initialBlock = web3.eth.getBlock('latest').number;
         const expected = parseInt(initialBlock) + numberOfBlocksToAdvance;
@@ -83,9 +105,50 @@ contract('testing CoinToss contract', async (accounts) => {
 
         assert(balanceDifference > 0.98);
     });
+
+    it('should return the same from the constant and the function', async () => {
+        const coinToss = await CoinToss.deployed();
+
+        const maxBetFromConst = parseInt(await coinToss.MAXIMUM_PASSED_BLOCKS.call());
+        const maxBetFromFunction = parseInt(await coinToss.getMaxPassedBlocks());
+
+        assert.equal(maxBetFromConst, maxBetFromFunction);
+    });
+
+    it('should not self destruct from non-owner address', async () => {
+        const coinToss = await CoinToss.deployed();
+
+        await expectThrow(coinToss.kill({ from: accounts[2] }));
+    });
+
+    it('should selfdestruct', async () => {
+        const coinToss = await CoinToss.deployed();
+
+        let noError = false;
+
+        try {
+            await coinToss.kill();
+            noError = true;
+        } catch (err) {
+            noError = false;
+        }
+
+        assert.isTrue(noError);
+    });
 });
 
 // Helper functions
+const testResolveBetRequires = async (betId, accounts, accountNumber, blockToAdvance) => {
+    const coinTossMock = await CoinTossMock.deployed();
+    const amountToBet = 4e14;
+
+    await coinTossMock.fund({ from: accounts[1], value: 1e15 });
+    await coinTossMock.setBetId(betId);
+    await coinTossMock.placeBet(userBet, { from: accounts[1], value: amountToBet });
+    await helper.advanceMultipleBlocks(blockToAdvance);
+
+    await expectThrow(coinTossMock.resolveBet(betId, { from: accounts[accountNumber] }));
+};
 
 const testPossibleStates = async (bet, betID, accounts) => {
     const coinTossMock = await CoinTossMock.deployed();

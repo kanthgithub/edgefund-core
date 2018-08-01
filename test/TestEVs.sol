@@ -12,7 +12,7 @@ contract TestEVs
     int _EVTotalCasino = 526315790;
     int _EVTotalUser = 526315789; //Should be exactly the same as the Casino number
     int _EVGameOperatorCasino = 522815790;
-    int _EVGameOperatorUser = 522815790;
+    int _EVGameOperatorUser = 522815789;
 
     EdgeFundBettingFunctions ef;
 
@@ -83,7 +83,7 @@ contract TestEVs
     function testEVGameOperatorUser() public
     {
         int expected = _EVGameOperatorUser; // -522815789.5
-        int actual = ef.getEVGameOperatorCasino();
+        int actual = ef.getEVGameOperatorUser();
 
         Assert.equal(
             actual,

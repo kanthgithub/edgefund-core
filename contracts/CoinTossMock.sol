@@ -7,19 +7,22 @@ import "./CoinToss.sol";
  **/
 contract CoinTossMock is CoinToss ()
 {
-    function setBetId(uint ID) public
+    function setBetId(uint betId) public
     {
-        counter = ID;
+        counter = betId;
     }
 
-    /* This mocked function 'wins' when the supplied betID is even, and 'loses when it's odd
-     * This allows the function to use the 'pure' modifier, to match the CointToss
-     * Implementation
+    function getMaxPassedBlocks() public pure returns (uint)
+    {
+        return 5;
+    }
+
+    /* This mocked function 'wins' when the supplied betID is even, and 'loses' when it's odd
+     * This allows the function to use the 'pure' modifier, to match the CointToss implementation.
      */
     function getResultForBet(uint betId, bytes32 resutBlockHash) public pure returns (bool)
     {
-        require(resutBlockHash >= 0); // suppress warning.
-        require(betId >= 0); // suppress warning.
+        resutBlockHash = resutBlockHash; // Suppress warning.
 
         return (betId % 2) == 0;
     }

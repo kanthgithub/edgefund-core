@@ -16,6 +16,8 @@ contract CoinToss
     }
 
     uint public constant MAXIMUM_BET_SIZE = 1e18;
+    uint public constant MAXIMUM_PASSED_BLOCKS = 255;
+    uint public constant MINIMUM_PASSED_BLOCKS = 5;
     uint public bankroll = 0;
     uint public counter = 0;
 
@@ -33,20 +35,14 @@ contract CoinToss
 
     function placeBet (bool betIsHeads) public payable
     {
-        require(msg.value <= MAXIMUM_BET_SIZE);
+        require(msg.value <= MAXIMUM_BET_SIZE, "Bet is too big");
 
-        coinTosses[counter] = Toss(msg.sender, block.number + 5, betIsHeads, msg.value);
+        coinTosses[counter] =
+            Toss(msg.sender, block.number + MINIMUM_PASSED_BLOCKS, betIsHeads, msg.value);
 
         emit betPlaced(counter, msg.sender, betIsHeads, msg.value);
 
         counter++;
-        }
-
-    function getBetById(uint betId) public view returns(address, uint, bool, uint)
-    {
-        Toss storage toss = coinTosses[betId];
-
-        return (toss.user, toss.block, toss.isHeads, toss.amount);
     }
 
     function getResultForBet(uint betId, bytes32 resutBlockHash) public pure returns (bool)
@@ -57,13 +53,23 @@ contract CoinToss
         return result == 0;
     }
 
+    /* This function exists only to get around a quirk with Solidity inheritance
+     * It appears that overriding a constant is ignored when consumed in a sub-class
+     * but overriding a function is not ignored. This behaviour should be investigated
+     * further to ensure this is anot a security liability for this contract.
+     */
+    function getMaxPassedBlocks() public pure returns (uint)
+    {
+        return MAXIMUM_PASSED_BLOCKS;
+    }
+
     function resolveBet(uint betId) public
     {
         Toss storage toss = coinTosses[betId];
 
         require(msg.sender == toss.user);
         require(block.number >= toss.block);
-        require(block.number <= toss.block + 255);
+        require(block.number <= (toss.block + this.getMaxPassedBlocks()));
 
         bool isHeads = getResultForBet(betId, blockhash(toss.block));
 
@@ -73,6 +79,8 @@ contract CoinToss
         }
 
         emit CoinTossed(betId, isHeads);
+
+
         delete coinTosses[betId];
     }
 
