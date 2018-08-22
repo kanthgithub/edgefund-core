@@ -1,5 +1,5 @@
 const CoinToss = artifacts.require('CoinToss');
-const helper = require('./helpers/delorean');
+const zephelpers = require('openzeppelin-solidity/test/helpers/advanceToBlock');
 const expectThrow = require('./helpers/throwHandler');
 const CoinTossMock = artifacts.require('CoinTossMock');
 const userBet = false;
@@ -73,7 +73,7 @@ contract('testing CoinToss contract', async (accounts) => {
         const expected = parseInt(initialBlock) + numberOfBlocksToAdvance;
 
         for (let i = 0; i < numberOfBlocksToAdvance; i++) {
-            await helper.advanceBlock();
+            await zephelpers.advanceBlock();
         }
 
         const actual = web3.eth.getBlock('latest').number;
@@ -145,7 +145,7 @@ const testResolveBetRequires = async (betId, accounts, accountNumber, blockToAdv
     await coinTossMock.fund({ from: accounts[1], value: 1e15 });
     await coinTossMock.setBetId(betId);
     await coinTossMock.placeBet(userBet, { from: accounts[1], value: amountToBet });
-    await helper.advanceMultipleBlocks(blockToAdvance);
+    await zephelpers.advanceToBlock(web3.eth.blockNumber + blockToAdvance);
 
     await expectThrow(coinTossMock.resolveBet(betId, { from: accounts[accountNumber] }));
 };
@@ -159,7 +159,7 @@ const testPossibleStates = async (bet, betID, accounts) => {
     await coinTossMock.setBetId(betID);
 
     await coinTossMock.placeBet(bet, { from: accounts[2], value: 1e18 });
-    await helper.advanceMultipleBlocks(numberOfBlocksToAdvance);
+    await zephelpers.advanceToBlock(web3.eth.blockNumber + numberOfBlocksToAdvance);
     await coinTossMock.resolveBet(betID, { from: accounts[2] });
 
     const finalBalanceAcc2 = web3.fromWei(web3.eth.getBalance(web3.eth.accounts[2]));
