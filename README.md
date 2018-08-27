@@ -30,6 +30,10 @@ Before you can run the tests for the contracts they need to be compiled. To comp
 
 `truffle compile`
 
+They also need to be migrated to the ganache-cli blockchain.  To do this run the following command:
+
+`truffle migrate`
+
 ## Setting up a local test blockchain
 
 In order to run the tests we need to have a blockchain against which to run them.  Thankfully ganache-cli
