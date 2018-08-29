@@ -9,7 +9,7 @@ notifications:
 
 branches:
   only:
-  - rinkeby
+  - master
 
 language: node_js
 
@@ -37,4 +37,4 @@ deploy:
   skip_cleanup: true
   script: chmod +x deploy.sh && ./deploy.sh
   on:
-    branch: rinkeby
+    branch: master
