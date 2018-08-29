@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
 npm install -g truffle
-npm install
 
-truffle migrate -f 3 --network rinkeby # 3 refers to migrations/3_deploy_cointoss.js
+# 3 refers to migrations/3_deploy_cointoss.js
+export ADDRESS=`truffle migrate -f 3 --network rinkeby | \
+grep "CoinToss" | \
+grep -Eo "0x(\w)*"`
+
+echo $ADDRESS

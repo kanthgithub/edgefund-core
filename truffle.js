@@ -12,7 +12,10 @@ module.exports = {
         },
         rinkeby: {
             provider: function () {
-                return new HDWalletProvider(process.env.MNEMONIC, rinkebyUri);
+                return new HDWalletProvider(
+                    process.env.MNEMONIC,
+                    rinkebyUri
+                );
             },
             network_id: 4
         }
