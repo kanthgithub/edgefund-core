@@ -14,7 +14,7 @@ module.exports = {
             provider: function () {
                 return new HDWalletProvider(process.env.MNEMONIC, rinkebyUri);
             },
-            network_id: 3
+            network_id: 4
         }
     },
     solc: {
