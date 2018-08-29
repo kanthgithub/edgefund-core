@@ -30,9 +30,6 @@ install:
 
 script:
   - ./node_modules/.bin/eslint test/**/*.js
-  - truffle test
-
-after_script:
   - npm run coverage && cat coverage/lcov.info | coveralls
 
 deploy:

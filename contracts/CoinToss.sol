@@ -16,6 +16,8 @@ contract CoinToss
     }
 
     uint public constant MAXIMUM_BET_SIZE = 1e18;
+    uint public constant MAXIMUM_PASSED_BLOCKS = 255;
+    uint public constant MINIMUM_PASSED_BLOCKS = 5;
     uint public bankroll = 0;
     uint public counter = 0;
 
@@ -33,33 +35,32 @@ contract CoinToss
 
     function placeBet (bool betIsHeads) public payable
     {
-        require(msg.value <= MAXIMUM_BET_SIZE);
+        require(msg.value <= MAXIMUM_BET_SIZE, "Bet is too big");
 
-        counter++;
-        coinTosses[counter] = Toss(msg.sender, block.number + 5, betIsHeads, msg.value);
+        coinTosses[counter] =
+            Toss(msg.sender, block.number + MINIMUM_PASSED_BLOCKS, betIsHeads, msg.value);
 
         emit betPlaced(counter, msg.sender, betIsHeads, msg.value);
+
+        counter++;
     }
 
-    function getBetById(uint betId) public view returns(address, uint, bool, uint)
+    function getResultForBet(uint betId, bytes32 resutBlockHash) public pure returns (bool)
     {
-        Toss storage toss = coinTosses[betId];
+        bytes32 hashedValue = keccak256(abi.encodePacked(resutBlockHash, betId));
+        uint256 result = uint32(hashedValue) % 2;
 
-        return (toss.user, toss.block, toss.isHeads, toss.amount);
+        return result == 0;
     }
 
-    function getResultForBet(uint betId) public view returns (bool)
+    /* This function exists only to get around a quirk with Solidity inheritance
+     * It appears that overriding a constant is ignored when consumed in a sub-class
+     * but overriding a function is not ignored. This behaviour should be investigated
+     * further to ensure this is anot a security liability for this contract.
+     */
+    function getMaxPassedBlocks() public pure returns (uint)
     {
-        return getRandomForBet(betId) % 2 == 0;
-    }
-
-    function getRandomForBet(uint betId) public view returns (uint)
-    {
-        Toss storage toss = coinTosses[betId];
-        bytes32 resultHash = keccak256(abi.encodePacked(blockhash(toss.block), betId));
-        uint32 resultValue = uint32(resultHash);
-
-        return resultValue % 2;
+        return MAXIMUM_PASSED_BLOCKS;
     }
 
     function resolveBet(uint betId) public
@@ -68,19 +69,18 @@ contract CoinToss
 
         require(msg.sender == toss.user);
         require(block.number >= toss.block);
-        require(block.number <= toss.block + 255);
+        require(block.number <= (toss.block + this.getMaxPassedBlocks()));
 
-        bytes32 resultHash = keccak256(abi.encodePacked(blockhash(toss.block), betId));
-        uint32 resultValue = uint32(resultHash);
+        bool isHeads = getResultForBet(betId, blockhash(toss.block));
 
-        bool isHeads = resultValue % 2 == 0;
-
-        if (isHeads && toss.isHeads) {
+        if (isHeads == toss.isHeads) {
             uint payout = toss.amount * 2; // no house edge...
             msg.sender.transfer(payout);
         }
 
         emit CoinTossed(betId, isHeads);
+
+
         delete coinTosses[betId];
     }
 
