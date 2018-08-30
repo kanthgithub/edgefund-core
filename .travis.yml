@@ -21,7 +21,7 @@ services:
 
 before_install:
   - docker pull trufflesuite/ganache-cli
-  - docker run -d -p 8545:8545 trufflesuite/ganache-cli:latest -a 10 -h 0.0.0.0
+  - docker run -d -p 8545:8545 trufflesuite/ganache-cli:latest -h 0.0.0.0
 
 install:
   - npm install -g truffle
@@ -31,3 +31,10 @@ install:
 script:
   - ./node_modules/.bin/eslint test/**/*.js
   - npm run coverage && cat coverage/lcov.info | coveralls
+
+deploy:
+  provider: script
+  skip_cleanup: true
+  script: chmod +x deploy.sh && ./deploy.sh
+  on:
+    branch: master
