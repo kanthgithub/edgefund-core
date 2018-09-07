@@ -1,18 +1,16 @@
 {
-  "name": "edgefund-core",
-  "version": "0.0.1",
+  "name": "@edgefund/core",
+  "version": "0.0.2",
   "description": "EdgeFund Core contracts and tests",
-  "directories": {
-    "test": "test"
-  },
+  "files": [ "build", "contracts", "assets"],
   "dependencies": {
-    "dotenv": "^6.0.0",
-    "truffle-hdwallet-provider": "0.0.5",
-    "openzeppelin-solidity": "^1.12.0",
-    "web3-utils": "^1.0.0-beta.35"
   },
   "devDependencies": {
+    "web3-utils": "^1.0.0-beta.35",
+    "dotenv": "^6.0.0",
+    "truffle-hdwallet-provider": "0.0.5",
     "coveralls": "^3.0.2",
+    "openzeppelin-solidity": "^1.12.0",
     "eslint": "^5.2.0",
     "eslint-config-standard": "^12.0.0-alpha.0",
     "eslint-plugin-import": "^2.13.0",
