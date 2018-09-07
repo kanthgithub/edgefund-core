@@ -46,11 +46,20 @@ contract('testing CoinToss contract', async (accounts) => {
         assert.equal(count, 1);
     });
 
-    it('should reject a bet above the MAXIMUM_BET_SIZE', async () => {
+    it('should reject a bet above the maximumBetSize', async () => {
         const coinToss = await CoinToss.deployed();
-        const maxBet = await coinToss.MAXIMUM_BET_SIZE.call();
+        const maxBet = await coinToss.maximumBetSize.call();
         const amountToBet = maxBet * 2;
         const placeBet = coinToss.placeBet(userBet, { from: accounts[1], value: amountToBet });
+
+        await expectThrow(placeBet);
+    });
+
+    it('should reject a bet it cannot afford to pay out', async () => {
+        const coinToss = await CoinToss.deployed();
+        const bankroll = await coinToss.bankroll.call();
+        const tooBigBet = (bankroll / 2) + 10;
+        const placeBet = coinToss.placeBet(userBet, { from: accounts[1], value: tooBigBet });
 
         await expectThrow(placeBet);
     });

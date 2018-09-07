@@ -15,11 +15,11 @@ contract CoinToss
         uint amount;
     }
 
-    uint public constant MAXIMUM_BET_SIZE = 1e18;
     uint public constant MAXIMUM_PASSED_BLOCKS = 255;
     uint public constant MINIMUM_PASSED_BLOCKS = 5;
     uint public bankroll = 0;
     uint public counter = 0;
+    uint public maximumBetSize = 0;
 
     mapping(uint => Toss) public coinTosses;
 
@@ -35,10 +35,14 @@ contract CoinToss
 
     function placeBet (bool betIsHeads) public payable
     {
-        require(msg.value <= MAXIMUM_BET_SIZE, "Bet is too big");
+        require(msg.value <= maximumBetSize, "Bet is too big");
 
-        coinTosses[counter] =
-            Toss(msg.sender, block.number + MINIMUM_PASSED_BLOCKS, betIsHeads, msg.value);
+        coinTosses[counter] = Toss(
+            msg.sender,
+            block.number + MINIMUM_PASSED_BLOCKS,
+            betIsHeads,
+            msg.value
+        );
 
         emit betPlaced(counter, msg.sender, betIsHeads, msg.value);
 
@@ -79,24 +83,24 @@ contract CoinToss
         }
 
         emit CoinTossed(betId, isHeads);
-
-
         delete coinTosses[betId];
     }
 
     function fund () payable public
     {
         bankroll += msg.value;
+        maximumBetSize = bankroll / 2;
     }
 
     function () payable public
     {
         bankroll += msg.value;
+        maximumBetSize = bankroll / 2;
     }
 
     function kill () public
     {
-        require (msg.sender == owner);
+        require (msg.sender == owner, "You are not the contract owner");
         selfdestruct(owner);
     }
 }
