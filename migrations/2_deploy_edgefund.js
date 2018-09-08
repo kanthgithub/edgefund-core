@@ -3,7 +3,7 @@ const EdgeFund = artifacts.require('./EdgeFund.sol');
 const CoinTossMock = artifacts.require('./CoinTossMock.sol');
 
 module.exports = function (deployer, network) {
-    if (network === 'deployment') {
+    if (network === 'development') {
         return deployer.then(async () => {
             await deployer.deploy(EdgeFund);
             await deployer.deploy(EdgeFundBettingFunctions);
