@@ -10,6 +10,7 @@ notifications:
 branches:
   only:
   - master
+  - deployment
 
 language: node_js
 
@@ -37,7 +38,7 @@ deploy:
     skip_cleanup: true
     script: chmod +x deploy.sh && ./deploy.sh
     on:
-      branch: master
+      branch: deployment
 
   - provider: npm
     skip_cleanup: true
