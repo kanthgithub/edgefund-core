@@ -1,4 +1,4 @@
-![logo](/assets/EdgeFundNew.png "EdgeFundLogo")
+![logo](/assets/EdgeFundInverted.png "EdgeFundLogo")
 
 [![Travis](https://api.travis-ci.org/edgefund/edgefund-core.svg?branch=master)](https://travis-ci.org/edgefund/edgefund-core)
 [![Coverage Status](https://coveralls.io/repos/github/edgefund/edgefund-core/badge.svg?branch=master)](https://coveralls.io/github/edgefund/edgefund-core?branch=master)
