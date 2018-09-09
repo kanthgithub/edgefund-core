@@ -44,5 +44,4 @@ deploy:
     email: "gareth@edgefund.net"
     api_key: $NPM_TOKEN
     on:
-      branch: master
-      tags: true
+      branch: deployment
