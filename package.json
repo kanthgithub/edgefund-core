@@ -1,6 +1,6 @@
 {
   "name": "@edgefund/core",
-  "version": "0.0.2",
+  "version": "0.0.4",
   "description": "EdgeFund Core contracts and tests",
   "files": [ "build", "contracts", "assets"],
   "dependencies": {
