@@ -71,9 +71,9 @@ contract CoinToss
     {
         Toss storage toss = coinTosses[betId];
 
-        require(msg.sender == toss.user);
-        require(block.number >= toss.block);
-        require(block.number <= (toss.block + this.getMaxPassedBlocks()));
+        require(msg.sender == toss.user, "You did not place this bet");
+        require(block.number >= toss.block, "Not enough blocks have passed yet");
+        require(block.number <= (toss.block + this.getMaxPassedBlocks()), "Too many blocks passed");
 
         bool isHeads = getResultForBet(betId, blockhash(toss.block));
 
