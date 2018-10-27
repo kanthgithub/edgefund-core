@@ -17,7 +17,7 @@ contract CoinToss
 
     uint public constant MAXIMUM_PASSED_BLOCKS = 255;
     uint public constant MINIMUM_PASSED_BLOCKS = 5;
-    uint public bankroll = 0;
+    uint public bankroll = address(this).balance;
     uint public counter = 0;
     uint public maximumBetSize = 0;
 
@@ -26,7 +26,7 @@ contract CoinToss
     address owner;
 
     event betPlaced(uint id, address user, bool isHeads, uint amount);
-    event CoinTossed(uint id, bool isHeads);
+    event coinTossed(uint id, bool isHeads);
 
     constructor() public
     {
@@ -43,6 +43,8 @@ contract CoinToss
             betIsHeads,
             msg.value
         );
+
+        bankroll = address(this).balance;
 
         emit betPlaced(counter, msg.sender, betIsHeads, msg.value);
 
@@ -82,19 +84,21 @@ contract CoinToss
             msg.sender.transfer(payout);
         }
 
-        emit CoinTossed(betId, isHeads);
+        bankroll = address(this).balance;
+
+        emit coinTossed(betId, isHeads);
         delete coinTosses[betId];
     }
 
     function fund () payable public
     {
-        bankroll += msg.value;
+        bankroll = address(this).balance;
         maximumBetSize = bankroll / 2;
     }
 
     function () payable public
     {
-        bankroll += msg.value;
+        bankroll = address(this).balance;
         maximumBetSize = bankroll / 2;
     }
 
