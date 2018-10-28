@@ -44,7 +44,7 @@ contract CoinToss
             msg.value
         );
 
-        bankroll = address(this).balance;
+        bankroll += msg.value;
 
         emit betPlaced(counter, msg.sender, betIsHeads, msg.value);
 
@@ -92,13 +92,13 @@ contract CoinToss
 
     function fund () payable public
     {
-        bankroll = address(this).balance;
+        bankroll += msg.value;
         maximumBetSize = bankroll / 2;
     }
 
     function () payable public
     {
-        bankroll = address(this).balance;
+        bankroll += msg.value;
         maximumBetSize = bankroll / 2;
     }
 
